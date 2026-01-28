@@ -116,19 +116,18 @@
                 photographers dedicated to preserving the wild through art.
             </p>
 
-            <div class="absolute bottom-12 flex flex-col items-center gap-3 animate-bounce opacity-90">
-                <span class="text-[10px] font-bold tracking-[0.3em] text-white uppercase opacity-80">Scroll to
-                    Explore</span>
+            <a href="#explore" class="absolute bottom-12 flex flex-col items-center gap-4 animate-bounce hover:opacity-100 transition-opacity opacity-80 cursor-pointer z-30 group">
+                <span class="text-[10px] font-bold tracking-[0.3em] text-white uppercase group-hover:text-green-400 transition-colors">Scroll to Explore</span>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6 text-white">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                    stroke="currentColor" class="w-5 h-5 text-white group-hover:text-green-400 transition-colors">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                 </svg>
-            </div>
+            </a>
         </div>
     </section>
 
     <!-- MILESTONES -->
-    <section class="py-20 bg-white relative">
+    <section id="explore" class="py-20 bg-white relative">
         <div class="container mx-auto px-6 max-w-5xl">
             <div class="relative border-l-2 border-stone-200 ml-4 md:ml-1/2 space-y-16">
                 @foreach($milestones as $milestone)

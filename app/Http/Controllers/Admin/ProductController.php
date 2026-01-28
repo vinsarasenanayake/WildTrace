@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-
+use App\Http\Controllers\Controller;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -12,12 +12,6 @@ class ProductController extends Controller
     {
         $products = Product::latest()->get();
         return view('admin.dashboard', compact('products'))->with('title', 'Admin Dashboard');
-    }
-
-    public function show($id)
-    {
-        $product = Product::find($id);
-        return view('product', compact('product', 'id'));
     }
 
     public function create()

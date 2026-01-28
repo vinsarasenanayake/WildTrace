@@ -2,27 +2,53 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\Product;
-use App\Models\Order;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\FavoriteController;
 
-Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
+// ============================================
+// PUBLIC ROUTES (No Authentication Required)
+// ============================================
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Authentication
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
-// Public API endpoints
-Route::get('/products', function () {
-    return Product::all();
-});
+// Products (Public Access)
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{id}', [ProductController::class, 'show']);
 
-Route::get('/products/{id}', function ($id) {
-    return Product::findOrFail($id);
-});
+// ============================================
+// PROTECTED ROUTES (Authentication Required)
+// ============================================
 
-// Protected API endpoints
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/orders', function (Request $request) {
-        return Order::where('user_id', $request->user()->id)->get();
-    });
+
+    // User Profile & Authentication
+    Route::get('/user', [AuthController::class, 'profile']);
+    Route::put('/user/profile', [AuthController::class, 'updateProfile']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    // Cart Management
+    Route::get('/cart', [CartController::class, 'index']);
+    Route::post('/cart', [CartController::class, 'store']);
+    Route::put('/cart/{id}', [CartController::class, 'update']);
+    Route::delete('/cart/{id}', [CartController::class, 'destroy']);
+    Route::delete('/cart', [CartController::class, 'clear']);
+    Route::post('/cart/sync', [CartController::class, 'sync']);
+
+    // Favorites Management
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::post('/favorites/toggle', [FavoriteController::class, 'toggle']);
+    Route::get('/favorites/check/{productId}', [FavoriteController::class, 'check']);
+    Route::delete('/favorites/{id}', [FavoriteController::class, 'destroy']);
+
+    // Orders Management
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::post('/orders', [OrderController::class, 'store']);
+    Route::get('/orders/{id}', [OrderController::class, 'show']);
+    Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
 });
+

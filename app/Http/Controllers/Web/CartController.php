@@ -1,12 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    // Display Cart Page
+    public function index()
+    {
+        return view('pages.cart');
+    }
+
+    // Display Checkout Page
+    public function checkout()
+    {
+        return view('pages.checkout');
+    }
+
     // Process Checkout & Payment
     public function process(Request $request)
     {

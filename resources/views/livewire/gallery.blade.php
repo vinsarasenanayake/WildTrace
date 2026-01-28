@@ -94,6 +94,14 @@
                 class="text-base md:text-lg text-stone-300 leading-relaxed max-w-2xl mx-auto animate-fade-in-up delay-200 font-medium">
                 Explore our curated collection of fine art wildlife photography, capturing the fleeting beauty of nature's most untamed moments.
             </p>
+
+            <a href="#gallery-filters" class="absolute bottom-12 flex flex-col items-center gap-4 animate-bounce hover:opacity-100 transition-opacity opacity-80 cursor-pointer z-30 group">
+                <span class="text-[10px] font-bold tracking-[0.3em] text-white uppercase group-hover:text-green-400 transition-colors">Scroll to Explore</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-5 h-5 text-white group-hover:text-green-400 transition-colors">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+            </a>
         </div>
     </section>
 

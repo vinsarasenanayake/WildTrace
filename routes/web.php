@@ -1,20 +1,24 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\Web\PageController;
+use App\Http\Controllers\Web\CartController;
+use App\Http\Controllers\Web\DashboardController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
 
 // Public Routes
 Route::middleware(['redirectAdmin'])->group(function () {
 
     // Pages
-    Route::get('/', \App\Livewire\Home::class)->name('home');
-    Route::get('/journey', \App\Livewire\Journey::class)->name('journey');
-    Route::get('/gallery', \App\Livewire\Gallery::class)->name('gallery');
-    Route::get('/product/{id}', \App\Livewire\ProductShow::class)->name('product.show');
+    Route::get('/', [PageController::class, 'home'])->name('home');
+    Route::get('/journey', [PageController::class, 'journey'])->name('journey');
+    Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
+    Route::get('/product/{id}', [PageController::class, 'product'])->name('product.show');
 
     // Cart & Checkout
-    Route::get('/cart', \App\Livewire\Cart::class)->name('cart.index');
-    Route::get('/checkout', \App\Livewire\Checkout::class)->name('checkout.index');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout.index');
     Route::post('/checkout/process', [CartController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/success', [CartController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/cancel', [CartController::class, 'cancel'])->name('checkout.cancel');
@@ -25,7 +29,7 @@ Route::middleware(['redirectAdmin'])->group(function () {
         config('jetstream.auth_session'),
         'verified',
     ])->group(function () {
-        Route::get('/dashboard', \App\Livewire\Dashboard::class)->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/order/{order}/repay', [CartController::class, 'repay'])->name('order.repay');
     });
 });
@@ -34,24 +38,27 @@ Route::middleware(['redirectAdmin'])->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
 
     // Dashboard
-    Route::get('/', \App\Livewire\Admin\Dashboard::class)->name('dashboard');
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 
     // Resources
-    Route::get('/photographers', \App\Livewire\Admin\Photographers\Index::class)->name('photographers.index');
-    Route::get('/photographers/create', \App\Livewire\Admin\Photographers\Create::class)->name('photographers.create');
-    Route::get('/photographers/{photographer}/edit', \App\Livewire\Admin\Photographers\Edit::class)->name('photographers.edit');
+    Route::get('/photographers', [AdminController::class, 'photographers'])->name('photographers.index');
+    Route::get('/photographers/create', [AdminController::class, 'photographersCreate'])->name('photographers.create');
+    Route::get('/photographers/{photographer}/edit', [
+        AdminController::class,
+        'photographersEdit'
+    ])->name('photographers.edit');
 
-    Route::get('/users', \App\Livewire\Admin\Users\Index::class)->name('users.index');
+    Route::get('/users', [AdminController::class, 'users'])->name('users.index');
 
-    Route::get('/subscribers', \App\Livewire\Admin\Subscribers\Index::class)->name('subscribers.index');
+    Route::get('/subscribers', [AdminController::class, 'subscribers'])->name('subscribers.index');
 
-    Route::get('/orders', \App\Livewire\Admin\Orders\Index::class)->name('orders.index');
+    Route::get('/orders', [AdminController::class, 'orders'])->name('orders.index');
 
-    Route::get('/products', \App\Livewire\Admin\Products\Index::class)->name('products.index');
-    Route::get('/products/create', \App\Livewire\Admin\Products\Create::class)->name('products.create');
-    Route::get('/products/{product}/edit', \App\Livewire\Admin\Products\Edit::class)->name('products.edit');
+    Route::get('/products', [AdminProductController::class, 'index'])->name('products.index');
+    Route::get('/products/create', [AdminProductController::class, 'create'])->name('products.create');
+    Route::get('/products/{product}/edit', [AdminProductController::class, 'edit'])->name('products.edit');
 
-    Route::get('/milestones', \App\Livewire\Admin\Milestones\Index::class)->name('milestones.index');
-    Route::get('/milestones/create', \App\Livewire\Admin\Milestones\Create::class)->name('milestones.create');
-    Route::get('/milestones/{milestone}/edit', \App\Livewire\Admin\Milestones\Edit::class)->name('milestones.edit');
+    Route::get('/milestones', [AdminController::class, 'milestones'])->name('milestones.index');
+    Route::get('/milestones/create', [AdminController::class, 'milestonesCreate'])->name('milestones.create');
+    Route::get('/milestones/{milestone}/edit', [AdminController::class, 'milestonesEdit'])->name('milestones.edit');
 });
