@@ -36,9 +36,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007Z" />
                     </svg>
-                    @if(count((array) session('cart')) > 0)
+                    @php $cartCount = \App\Models\Cart::where('user_id', auth()->id())->count(); @endphp
+                    @if($cartCount > 0)
                         <span
-                            class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 text-white text-[10px] flex items-center justify-center rounded-full font-bold">{{ count((array) session('cart')) }}</span>
+                            class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 text-white text-[10px] flex items-center justify-center rounded-full font-bold">{{ $cartCount }}</span>
                     @endif
                 </a>
 
@@ -97,7 +98,6 @@
                         <span
                             class="absolute bottom-0 left-0 w-full h-0.5 bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></span>
                     @endif
-                </button>
             </div>
 
             <div class="mb-2">
@@ -219,22 +219,43 @@
                                     <!-- Order Actions -->
                                     <div class="flex items-center gap-4">
                                         <div class="flex flex-col items-end gap-2">
-                                            @if(($order->payment_status ?? 'pending') === 'pending' || $order->payment_status === 'declined')
-                                                <div class="flex flex-col gap-2">
+                                        @php
+                                            $effectiveStatus = strtolower($order->status ?? 'pending');
+                                            $paymentStatus = strtolower($order->payment_status ?? 'pending');
+                                            
+                                            $isGrayedOut = in_array($effectiveStatus, ['declined', 'cancelled']);
+                                            $isVisible = $effectiveStatus === 'pending' || $isGrayedOut;
+                                        @endphp
+                                    
+                                        @if($isVisible)
+                                            <div class="flex flex-col gap-2">
+                                                <!-- Pay Now Button -->
+                                                @if($isGrayedOut)
+                                                    <button disabled class="px-6 py-2 bg-stone-200 text-stone-400 text-[10px] font-bold uppercase tracking-widest rounded-full cursor-not-allowed text-center shadow-none border border-stone-200">
+                                                        Pay Now
+                                                    </button>
+                                                @else
                                                     <a href="{{ route('order.repay', $order->id) }}" class="px-6 py-2 bg-green-600 hover:bg-green-500 text-white text-[10px] font-bold uppercase tracking-widest rounded-full transition-all shadow-lg shadow-green-600/20 active:scale-95 text-center">
                                                         Pay Now
                                                     </a>
-                                                    @if(in_array(($order->payment_status ?? 'pending'), ['pending', 'declined']))
-                                                        <button 
-                                                            wire:click="cancelOrder({{ $order->id }})"
-                                                            wire:confirm="Are you sure you want to cancel this order?"
-                                                            class="px-6 py-2 bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 text-[10px] font-bold uppercase tracking-widest rounded-full transition-all active:scale-95 text-center">
-                                                            Cancel Order
-                                                        </button>
-                                                    @endif
-                                                </div>
-                                            @endif
-                                        </div>
+                                                @endif
+
+                                                <!-- Cancel Button -->
+                                                @if($isGrayedOut)
+                                                    <button disabled class="px-6 py-2 bg-stone-100 text-stone-300 text-[10px] font-bold uppercase tracking-widest rounded-full cursor-not-allowed text-center border border-stone-100">
+                                                        Cancel Order
+                                                    </button>
+                                                @else
+                                                     <button 
+                                                        wire:click="cancelOrder({{ $order->id }})"
+                                                        wire:confirm="Are you sure you want to cancel this order?"
+                                                        class="px-6 py-2 bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 text-[10px] font-bold uppercase tracking-widest rounded-full transition-all active:scale-95 text-center">
+                                                        Cancel Order
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -244,16 +265,23 @@
                                 @foreach($order->items as $item)
                                         <div class="flex items-center gap-4">
                                             @php
-                                                $imagePath = $item->product_image ?? ($item->product->image_url ?? null);
+                                            $imagePath = $item->product_image;
+
+                                            if ($imagePath) {
+                                                $imagePath = str_replace(['http://10.0.2.2:8000/', 'http://192.168.1.191:8000/'], '', $imagePath);
+                                            }
+                                            
+                                            if (empty($imagePath) && $item->product) {
+                                                $imagePath = $item->product->image_url;
+                                            }
                                                 
-                                                // Fallback: If image missing, fuzzy search by name
-                                                if (!$imagePath && $item->product_name) {
+                                            if (empty($imagePath) && $item->product_name) {
                                                     $cleanName = explode(' (', $item->product_name)[0];
                                                     $fuzzyProduct = \App\Models\Product::where('title', 'like', $cleanName . '%')->first();
                                                     if ($fuzzyProduct) {
                                                         $imagePath = $fuzzyProduct->image_url;
                                                     }
-                                                }
+                                            }
                                                 
                                                 $productTitle = $item->product->title ?? ($item->product_name ?? 'Product');
                                             @endphp
@@ -306,6 +334,7 @@
                 @endif
             </div>
         @endif
+
     </main>
 
 </div>

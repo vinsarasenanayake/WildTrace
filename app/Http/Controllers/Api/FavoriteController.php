@@ -10,21 +10,19 @@ use Illuminate\Support\Facades\Validator;
 
 class FavoriteController extends Controller
 {
-    /**
-     * Get user's favorite products
-     */
+    // Get Favorites
     public function index(Request $request)
     {
-        $favorites = Favorite::where('user_id', $request->user()->id)
-            ->with('product.photographer')
-            ->get();
+        $products = Favorite::where('user_id', $request->user()->id)
+            ->with(['product.photographer'])
+            ->get()
+            ->pluck('product')
+            ->filter();
 
-        return response()->json($favorites);
+        return response()->json(['data' => $products]);
     }
 
-    /**
-     * Toggle favorite status for a product
-     */
+    // Toggle Favorite
     public function toggle(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -43,14 +41,14 @@ class FavoriteController extends Controller
             ->first();
 
         if ($favorite) {
-            // Remove from favorites
+            // Remove
             $favorite->delete();
             return response()->json([
                 'message' => 'Removed from favorites',
                 'is_favorite' => false
             ]);
         } else {
-            // Add to favorites
+            // Add
             $favorite = Favorite::create([
                 'user_id' => $userId,
                 'product_id' => $productId,
@@ -66,9 +64,7 @@ class FavoriteController extends Controller
         }
     }
 
-    /**
-     * Check if product is favorited
-     */
+    // Check Status
     public function check(Request $request, $productId)
     {
         $isFavorite = Favorite::where('user_id', $request->user()->id)
@@ -78,9 +74,7 @@ class FavoriteController extends Controller
         return response()->json(['is_favorite' => $isFavorite]);
     }
 
-    /**
-     * Remove from favorites
-     */
+    // Remove Item
     public function destroy(Request $request, $id)
     {
         $favorite = Favorite::where('user_id', $request->user()->id)

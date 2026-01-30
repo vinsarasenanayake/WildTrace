@@ -15,9 +15,14 @@ class Gallery extends Component
     public $photographer = '';
     public $category = '';
     public $sort = 'newest';
-
-    // Newsletter
     public $email = '';
+
+    public function mount()
+    {
+        if (Auth::check() && Auth::user()->is_admin) {
+            return redirect()->route('admin.dashboard');
+        }
+    }
 
     protected $rules = [
         'email' => 'required|email',
@@ -138,6 +143,7 @@ class Gallery extends Component
         }
     }
 
+    #[Layout('layouts.guest', ['title' => 'Gallery', 'hasFooter' => false, 'fullWidth' => true])]
     public function render()
     {
         $query = Product::with('photographer');
@@ -174,6 +180,6 @@ class Gallery extends Component
         return view('livewire.gallery', [
             'products' => $query->paginate(9),
             'userFavorites' => $userFavorites
-        ])->layout('layouts.guest', ['title' => 'Gallery', 'hasFooter' => false, 'fullWidth' => true]);
+        ]);
     }
 }

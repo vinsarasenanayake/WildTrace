@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    /**
-     * Login user and create token
-     */
+    // Login
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -34,9 +32,7 @@ class AuthController extends Controller
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
-    /**
-     * Register new user
-     */
+    // Register
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -74,9 +70,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /**
-     * Logout user (revoke token)
-     */
+    // Logout
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
@@ -84,17 +78,13 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out successfully']);
     }
 
-    /**
-     * Get authenticated user profile
-     */
+    // Get Profile
     public function profile(Request $request)
     {
         return response()->json($request->user());
     }
 
-    /**
-     * Update user profile
-     */
+    // Update Profile
     public function updateProfile(Request $request)
     {
         $user = $request->user();

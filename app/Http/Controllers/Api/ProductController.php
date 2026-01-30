@@ -5,20 +5,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    // List Products
+    public function index(Request $request)
     {
-        return response()->json(Product::with('photographer')->get());
+        return response()->json(['data' => Product::with('photographer')->get()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Create Product
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -35,12 +32,10 @@ class ProductController extends Controller
         return response()->json($product, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Show Product
     public function show(string $id)
     {
-        $product = Product::find($id);
+        $product = Product::with('photographer')->find($id);
 
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
@@ -49,9 +44,7 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Update Product
     public function update(Request $request, string $id)
     {
         $product = Product::find($id);
@@ -74,9 +67,7 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Delete Product
     public function destroy(string $id)
     {
         $product = Product::find($id);
@@ -88,5 +79,31 @@ class ProductController extends Controller
         $product->delete();
 
         return response()->json(['message' => 'Product deleted successfully']);
+    }
+
+    // Get Price
+    public function getPrice(Request $request, string $id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        $size = $request->query('size');
+        if (!$size) {
+            return response()->json(['price' => $product->price]);
+        }
+
+        $options = $product->options;
+        if (isset($options['frames'])) {
+            foreach ($options['frames'] as $frame) {
+                if ($frame['size'] === $size) {
+                    return response()->json(['price' => $frame['price']]);
+                }
+            }
+        }
+
+        return response()->json(['price' => $product->price]);
     }
 }

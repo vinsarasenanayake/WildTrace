@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use Livewire\Component;
 
+use Livewire\Attributes\Layout;
+
 class Home extends Component
 {
     public $email = '';
@@ -24,6 +26,7 @@ class Home extends Component
         $this->reset('email');
     }
 
+    #[Layout('layouts.guest', ['title' => 'Home', 'hasFooter' => false, 'fullWidth' => true])]
     public function render()
     {
         $featuredProducts = \App\Models\Product::orderBy('price', 'desc')
@@ -42,6 +45,6 @@ class Home extends Component
 
         return view('livewire.home', [
             'featuredProducts' => $featuredProducts
-        ])->layout('layouts.guest', ['title' => 'Home', 'hasFooter' => false, 'fullWidth' => true]);
+        ]);
     }
 }

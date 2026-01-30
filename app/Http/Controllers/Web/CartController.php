@@ -3,25 +3,24 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    // Display Cart Page
+    // Cart index
     public function index()
     {
         return view('pages.cart');
     }
 
-    // Display Checkout Page
+    // Checkout view
     public function checkout()
     {
         return view('pages.checkout');
     }
 
-    // Process Checkout & Payment
+    // Process checkout
     public function process(Request $request)
     {
         $request->validate([
@@ -34,7 +33,6 @@ class CartController extends Controller
             'country' => 'required|in:SL',
         ]);
 
-        // Sync shipping info to profile
         if (auth()->check()) {
             auth()->user()->update([
                 'address' => $request->address,
@@ -71,7 +69,6 @@ class CartController extends Controller
             ];
         }
 
-        // Create Order Record
         $order = \App\Models\Order::create([
             'user_id' => auth()->id(),
             'status' => 'pending',
@@ -103,10 +100,15 @@ class CartController extends Controller
         $order->session_id = $session->id;
         $order->save();
 
+        session()->forget('cart');
+        if (auth()->check()) {
+            \App\Models\Cart::where('user_id', auth()->id())->delete();
+        }
+
         return redirect($session->url);
     }
 
-    // Repay Pending/Declined Order
+    // Repay order
     public function repay(\App\Models\Order $order)
     {
         if (($order->payment_status !== 'pending' && $order->payment_status !== 'declined') || $order->user_id !== auth()->id()) {
@@ -152,7 +154,7 @@ class CartController extends Controller
         return redirect($session->url);
     }
 
-    // Payment Success
+    // Success callback
     public function success(Request $request)
     {
         $sessionId = $request->get('session_id');
@@ -163,12 +165,18 @@ class CartController extends Controller
             $order->status = 'paid';
             $order->save();
             session()->forget('cart');
+            if (auth()->check()) {
+                \App\Models\Cart::where('user_id', auth()->id())->delete();
+            }
         }
 
-        return redirect()->route('home')->with('success', 'Thank you for your order! Payment successful.');
+        $startDate = now()->addDays(3)->format('M d');
+        $endDate = now()->addDays(5)->format('M d');
+
+        return redirect()->route('home')->with('success', "Thank you for your order! Payment successful. Estimated delivery: $startDate - $endDate");
     }
 
-    // Payment Cancellation
+    // Cancel callback
     public function cancel(Request $request)
     {
         if ($request->has('order_id')) {

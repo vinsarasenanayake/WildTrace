@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the user's orders.
-     */
+    // List Orders
     public function index(Request $request)
     {
         $orders = Order::where('user_id', $request->user()->id)
@@ -25,9 +23,7 @@ class OrderController extends Controller
         return response()->json($orders);
     }
 
-    /**
-     * Display the specified order.
-     */
+    // Show Order
     public function show(Request $request, string $id)
     {
         $order = Order::where('user_id', $request->user()->id)
@@ -41,9 +37,7 @@ class OrderController extends Controller
         return response()->json($order);
     }
 
-    /**
-     * Create a new order
-     */
+    // Create Order
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -64,7 +58,6 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
-            // Create order
             $order = Order::create([
                 'user_id' => $request->user()->id,
                 'total_price' => $request->total_price,
@@ -74,7 +67,6 @@ class OrderController extends Controller
                 'session_id' => $request->session_id,
             ]);
 
-            // Create order items
             foreach ($request->items as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
@@ -86,12 +78,10 @@ class OrderController extends Controller
                 ]);
             }
 
-            // Clear user's cart after successful order
             Cart::where('user_id', $request->user()->id)->delete();
 
             DB::commit();
 
-            // Load relationships
             $order->load(['items.product']);
 
             return response()->json([
@@ -108,14 +98,12 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Update order status (for admin or payment webhook)
-     */
+    // Update Status
     public function updateStatus(Request $request, string $id)
     {
         $validator = Validator::make($request->all(), [
             'status' => 'sometimes|string|in:pending,processing,shipped,delivered,cancelled',
-            'payment_status' => 'sometimes|string|in:pending,paid,failed,refunded',
+            'payment_status' => 'sometimes|string|in:pending,paid,failed,confirmed,declined,refunded',
         ]);
 
         if ($validator->fails()) {
@@ -134,6 +122,25 @@ class OrderController extends Controller
             'message' => 'Order updated successfully',
             'order' => $order
         ]);
+    }
+
+    // Cancel Order
+    public function cancel(Request $request, string $id)
+    {
+        $order = Order::where('user_id', $request->user()->id)->find($id);
+
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+
+        if ($order->status === 'pending' || $order->payment_status === 'pending') {
+            $order->status = 'declined';
+            $order->payment_status = 'declined';
+            $order->save();
+            return response()->json(['message' => 'Order cancelled', 'order' => $order]);
+        }
+
+        return response()->json(['message' => 'Order cannot be cancelled'], 400);
     }
 }
 

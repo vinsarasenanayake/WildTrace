@@ -7,23 +7,22 @@ use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 
-// Public Routes
 Route::middleware(['redirectAdmin'])->group(function () {
 
-    // Pages
+    // Public Pages
     Route::get('/', [PageController::class, 'home'])->name('home');
     Route::get('/journey', [PageController::class, 'journey'])->name('journey');
     Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
     Route::get('/product/{id}', [PageController::class, 'product'])->name('product.show');
 
-    // Cart & Checkout
+    // Cart Routes
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout.index');
     Route::post('/checkout/process', [CartController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/success', [CartController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/cancel', [CartController::class, 'cancel'])->name('checkout.cancel');
 
-    // User Dashboard
+    // User Routes
     Route::middleware([
         'auth:sanctum',
         config('jetstream.auth_session'),
@@ -37,10 +36,8 @@ Route::middleware(['redirectAdmin'])->group(function () {
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
 
-    // Dashboard
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 
-    // Resources
     Route::get('/photographers', [AdminController::class, 'photographers'])->name('photographers.index');
     Route::get('/photographers/create', [AdminController::class, 'photographersCreate'])->name('photographers.create');
     Route::get('/photographers/{photographer}/edit', [

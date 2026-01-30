@@ -169,6 +169,17 @@ class ProductShow extends Component
 
         session()->put('cart', $cart);
 
+        // SYNC WITH DATABASE FOR MOBILE APP
+        if (auth()->check()) {
+            $dbCart = \App\Models\Cart::firstOrNew([
+                'user_id' => auth()->id(),
+                'product_id' => $id,
+                'size' => $this->selectedSize,
+            ]);
+            $dbCart->quantity = ($dbCart->exists ? $dbCart->quantity : 0) + $this->quantity;
+            $dbCart->save();
+        }
+
         // Dispatch event for Navbar cart count update
         $this->dispatch('cartUpdated');
 

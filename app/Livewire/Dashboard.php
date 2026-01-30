@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 use Livewire\Attributes\Url;
 
+use Livewire\Attributes\Layout;
+
 class Dashboard extends Component
 {
     #[Url(history: true)]
@@ -20,6 +22,7 @@ class Dashboard extends Component
         }
     }
 
+    #[Layout('layouts.guest', ['title' => 'Dashboard', 'hasFooter' => true, 'fullWidth' => true])]
     public function render()
     {
         $user = Auth::user();
@@ -30,7 +33,7 @@ class Dashboard extends Component
             'favorites' => $favorites,
             'orders' => $orders,
             'user' => $user
-        ])->layout('layouts.guest', ['title' => 'Dashboard', 'hasFooter' => true, 'fullWidth' => true]);
+        ]);
     }
 
     // Toggle Tab Logic
