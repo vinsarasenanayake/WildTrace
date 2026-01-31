@@ -202,8 +202,8 @@
                             <div
                                 class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-stone-100">
                                 <div>
-                                    <span class="text-[10px] font-black uppercase tracking-widest block mb-2 {{ ($order->status ?? 'pending') === 'confirmed' ? 'text-green-600' : 
-                                        (($order->status === 'declined' || $order->status === 'cancelled') ? 'text-red-500' : 'text-amber-500') }}">
+                                    <span class="text-[10px] font-black uppercase tracking-widest block mb-2 {{ in_array(strtolower($order->status ?? 'pending'), ['confirmed', 'paid', 'delivered']) ? 'text-green-600' : 
+                                        (in_array(strtolower($order->status), ['declined', 'cancelled', 'failed']) ? 'text-red-500' : 'text-amber-500') }}">
                                         {{ ucfirst($order->status ?? 'Pending') }}
                                     </span>
                                     <p class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Order

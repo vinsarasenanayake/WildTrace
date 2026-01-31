@@ -62,7 +62,7 @@ class OrderController extends Controller
                 'user_id' => $request->user()->id,
                 'total_price' => $request->total_price,
                 'shipping_address' => $request->shipping_address,
-                'status' => 'pending',
+                'status' => ($request->payment_status === 'paid') ? 'paid' : 'pending',
                 'payment_status' => $request->payment_status ?? 'pending',
                 'session_id' => $request->session_id,
             ]);
@@ -141,6 +141,30 @@ class OrderController extends Controller
         }
 
         return response()->json(['message' => 'Order cannot be cancelled'], 400);
+    }
+
+    // Update Payment Status
+    public function updatePaymentStatus(Request $request, string $id)
+    {
+        $request->validate([
+            'payment_status' => 'required|string',
+        ]);
+
+        $order = Order::where('user_id', $request->user()->id)->find($id);
+
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+
+        $order->update([
+            'payment_status' => $request->payment_status,
+            'status' => $request->payment_status === 'paid' ? 'paid' : $order->status,
+        ]);
+
+        return response()->json([
+            'message' => 'Payment status updated successfully',
+            'order' => $order
+        ]);
     }
 }
 
