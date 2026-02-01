@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>WildTrace{{ isset($title) ? ' - ' . $title : '' }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -32,7 +33,8 @@
             </div>
         </div>
 
-        <main class="{{ $fullWidth ? 'flex-grow relative z-10 w-full' : 'flex-grow flex flex-col items-center justify-start pt-4 pb-12 px-6 relative z-10 w-full' }}">
+        <main
+            class="{{ $fullWidth ? 'flex-grow relative z-10 w-full' : 'flex-grow flex flex-col items-center justify-start pt-4 pb-12 px-6 relative z-10 w-full' }}">
             {{ $slot }}
         </main>
 
