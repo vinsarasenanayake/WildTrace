@@ -12,7 +12,7 @@ Route::middleware(['redirectAdmin'])->group(function () {
     // Publicly accessible pages for all visitors
     Route::get('/', [PageController::class, 'home'])->name('home');
     Route::get('/journey', [PageController::class, 'journey'])->name('journey');
-    Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
+    Route::get('/gallery', \App\Livewire\Gallery::class)->name('gallery');
     Route::get('/product/{id}', [PageController::class, 'product'])->name('product.show');
 
     // Shopping cart and checkout process routes

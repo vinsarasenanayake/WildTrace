@@ -30,9 +30,27 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'category' => 'required',
             'photographer_id' => 'required|exists:photographers,id',
-            'image_url' => 'required|url',
+            'image_url' => 'required',
             'description' => 'nullable',
+            'long_description' => 'nullable',
+            'location' => 'nullable',
+            'aperture' => 'nullable',
+            'shutter_speed' => 'nullable',
+            'iso' => 'nullable',
+            'focal_length' => 'nullable',
+            'options' => 'nullable',
         ]);
+
+        if (is_null($validated['options'])) {
+            $validated['options'] = [
+                'frames' => [
+                    ['size' => '12 x 18 in', 'price' => 90],
+                    ['size' => '18 x 24 in', 'price' => 135],
+                    ['size' => '24 x 36 in', 'price' => 180],
+                    ['size' => '40 x 60 in', 'price' => 315]
+                ]
+            ];
+        }
 
         Product::create($validated);
 
@@ -54,8 +72,15 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'category' => 'required',
             'photographer_id' => 'required|exists:photographers,id',
-            'image_url' => 'required|url',
+            'image_url' => 'required',
             'description' => 'nullable',
+            'long_description' => 'nullable',
+            'location' => 'nullable',
+            'aperture' => 'nullable',
+            'shutter_speed' => 'nullable',
+            'iso' => 'nullable',
+            'focal_length' => 'nullable',
+            'options' => 'nullable',
         ]);
 
         $product->update($validated);
