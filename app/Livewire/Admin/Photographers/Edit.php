@@ -20,9 +20,9 @@ class Edit extends Component
     protected $rules = [
         'name' => 'required|string|max:255',
         'profession' => 'required|string|max:255',
-        'achievement' => 'nullable|string|max:255',
-        'quote' => 'nullable|string|max:255',
-        'post' => 'nullable|string|max:255',
+        'achievement' => 'required|string|max:255',
+        'quote' => 'required|string|max:255',
+        'post' => 'required|string|max:255',
         'image' => 'required|string|max:255',
     ];
 

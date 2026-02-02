@@ -25,8 +25,7 @@
 
             <!-- Achievement -->
             <div>
-                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Achievement
-                    (Optional)</label>
+                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Achievement</label>
                 <input type="text" wire:model="achievement"
                     class="w-full bg-stone-50 border border-stone-200 rounded-lg px-4 py-3 text-stone-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                     placeholder="e.g. Award Winner 2024">
@@ -35,8 +34,7 @@
 
             <!-- Quote -->
             <div>
-                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Quote
-                    (Optional)</label>
+                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Quote</label>
                 <textarea wire:model="quote" rows="3"
                     class="w-full bg-stone-50 border border-stone-200 rounded-lg px-4 py-3 text-stone-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                     placeholder="Favorite quote..."></textarea>
@@ -45,8 +43,7 @@
 
             <!-- Post -->
             <div>
-                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Post
-                    (Optional)</label>
+                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Post</label>
                 <input type="text" wire:model="post"
                     class="w-full bg-stone-50 border border-stone-200 rounded-lg px-4 py-3 text-stone-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                     placeholder="e.g. Senior Photographer">
