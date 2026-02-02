@@ -33,7 +33,9 @@
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-4">
                                 <div class="w-12 h-16 rounded-lg overflow-hidden bg-stone-100 flex-shrink-0">
-                                    <img src="{{ $product->image_url }}" alt="" class="w-full h-full object-cover">
+                                    <img src="{{ Str::startsWith($product->image_url, ['http', 'https']) ? $product->image_url : asset($product->image_url) }}"
+                                        onerror="this.src='https://placehold.co/100'" alt="{{ $product->title }}"
+                                        class="w-full h-full object-cover">
                                 </div>
                                 <span class="font-bold text-stone-800 tracking-tight">{{ $product->title }}</span>
                             </div>
@@ -42,7 +44,9 @@
                             <span
                                 class="px-3 py-1 bg-stone-100 rounded-full text-[10px] font-bold uppercase tracking-widest text-stone-500">{{ $product->category }}</span>
                         </td>
-                        <td class="px-8 py-6 text-sm text-stone-600 font-medium">{{ $product->photographer }}</td>
+                        <td class="px-8 py-6 text-sm text-stone-600 font-medium">
+                            {{ $product->photographer?->name ?? 'Unknown' }}
+                        </td>
                         <td class="px-8 py-6 text-sm font-black text-stone-900 tracking-tighter">${{ $product->price }}</td>
                         <td class="px-8 py-6 text-right">
                             <div

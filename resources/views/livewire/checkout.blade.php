@@ -186,8 +186,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" <!-- Payment Submission Trigger -->
-                                class="w-full py-6 bg-green-600 hover:bg-green-500 text-white text-xs font-black
+                            <button type="submit" class="w-full py-6 bg-green-600 hover:bg-green-500 text-white text-xs font-black
                                 uppercase tracking-[0.3em] rounded-2xl transition-all
                                 shadow-[0_0_30px_rgba(74,222,128,0.3)] active:scale-[0.98]">
                                 Proceed to Payment

@@ -11,7 +11,7 @@ class ProductController extends Controller
     // Display a complete list of all artifacts in the system
     public function index()
     {
-        $products = Product::latest()->get();
+        $products = Product::with('photographer')->latest()->get();
         return view('admin.dashboard', compact('products'))->with('title', 'Admin Dashboard');
     }
 
