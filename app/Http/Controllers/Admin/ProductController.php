@@ -41,7 +41,11 @@ class ProductController extends Controller
             'options' => 'nullable',
         ]);
 
-        if (is_null($validated['options'])) {
+        if (isset($validated['options']) && is_string($validated['options'])) {
+            $validated['options'] = json_decode($validated['options'], true);
+        }
+
+        if (empty($validated['options'])) {
             $validated['options'] = [
                 'frames' => [
                     ['size' => '12 x 18 in', 'price' => 90],
@@ -82,6 +86,10 @@ class ProductController extends Controller
             'focal_length' => 'nullable',
             'options' => 'nullable',
         ]);
+
+        if (isset($validated['options']) && is_string($validated['options'])) {
+            $validated['options'] = json_decode($validated['options'], true);
+        }
 
         $product->update($validated);
 

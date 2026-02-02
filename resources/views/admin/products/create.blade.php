@@ -117,6 +117,15 @@
                         placeholder="https://example.com/image.jpg">
                 </div>
 
+                <!-- Options (JSON) -->
+                <div class="space-y-3">
+                    <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Frame Options
+                        (JSON)</label>
+                    <textarea name="options" rows="4"
+                        class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold font-mono text-xs"
+                        placeholder='{"frames":[{"size":"12 x 18 in","price":90},{"size":"18 x 24 in","price":135},{"size":"24 x 36 in","price":180},{"size":"40 x 60 in","price":315}]}'></textarea>
+                </div>
+
                 <!-- Long Description -->
                 <div class="space-y-3">
                     <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Long
