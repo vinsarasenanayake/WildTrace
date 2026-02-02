@@ -20,9 +20,10 @@ class CartController extends Controller
         return view('pages.checkout');
     }
 
-    // Process checkout
+    // Process checkout session and persist user shipping data
     public function process(Request $request)
     {
+        // Validate incoming shipping and contact details
         $request->validate([
             'full_name' => 'required',
             'email' => 'required|email',
@@ -30,16 +31,17 @@ class CartController extends Controller
             'city' => ['required', 'string', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
             'contact_number' => 'required',
             'postal_code' => 'required',
-            'country' => 'required|in:SL',
+            'country' => 'required|string|max:255',
         ]);
 
+        // Sync authenticated user's profile with the latest shipping information
         if (auth()->check()) {
             auth()->user()->update([
                 'address' => $request->address,
                 'city' => $request->city,
                 'contact_number' => $request->contact_number,
                 'postal_code' => $request->postal_code,
-                'country' => 'Sri Lanka',
+                'country' => $request->country,
             ]);
         }
 

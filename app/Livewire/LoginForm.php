@@ -7,7 +7,6 @@ use Livewire\Component;
 class LoginForm extends Component
 {
     public $isAdmin = false;
-    public $showPassword = false;
 
     // Use Livewire's query string handling instead of x-init
     protected $queryString = ['admin' => ['except' => '']];
@@ -24,11 +23,6 @@ class LoginForm extends Component
         // but Livewire's $queryString should handle binding changes to URL automatically on next request?
         // Actually for real-time URL updates without refresh, we rely on Livewire 3 properties, 
         // but let's just keep local state for formatting.
-    }
-
-    public function togglePassword()
-    {
-        $this->showPassword = !$this->showPassword;
     }
 
     public function render()

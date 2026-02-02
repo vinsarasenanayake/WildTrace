@@ -13,13 +13,13 @@
             <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
                 <input type="file" id="photo" class="hidden" wire:model.live="photo" x-ref="photo" x-on:change="
-                                                                                    photoName = $refs.photo.files[0].name;
-                                                                                    const reader = new FileReader();
-                                                                                    reader.onload = (e) => {
-                                                                                        photoPreview = e.target.result;
-                                                                                    };
-                                                                                    reader.readAsDataURL($refs.photo.files[0]);
-                                                                            " />
+                                                                                                photoName = $refs.photo.files[0].name;
+                                                                                                const reader = new FileReader();
+                                                                                                reader.onload = (e) => {
+                                                                                                    photoPreview = e.target.result;
+                                                                                                };
+                                                                                                reader.readAsDataURL($refs.photo.files[0]);
+                                                                                        " />
 
                 <x-label for="photo" value="{{ __('Photo') }}" />
 
@@ -84,24 +84,15 @@
             @endif
         </div>
 
-        <!-- Contact Number -->
-        <div class="col-span-6 sm:col-span-3">
+        <!-- Contact Number: We use descending z-indices (z-50, z-40, etc.) to ensure 
+             dropdown lists overlay correctly on top of subsequent form elements. -->
+        <div class="col-span-6 sm:col-span-3 relative z-50">
             <x-label for="contact_number" value="{{ __('Contact Number') }}" />
-            <div
-                class="mt-1 flex rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden focus-within:ring-2 focus-within:ring-green-600/20 focus-within:border-green-600 transition-all">
-                <span
-                    class="inline-flex items-center px-4 border-r border-stone-100 bg-stone-50/50 text-stone-500 text-[13px] font-semibold select-none">
-                    +94
-                </span>
-                <input id="contact_number" type="text"
-                    class="w-full px-5 py-3 bg-transparent border-none outline-none focus:ring-0 text-stone-800 text-[13px] font-medium placeholder-stone-300"
-                    wire:model="state.contact_number" placeholder="771234567" maxlength="9"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
-            </div>
+            <x-contact-input id="contact_number" wire:model="state.contact_number" placeholder="771234567" />
             <x-input-error for="contact_number" class="mt-2" />
         </div>
 
-        <div class="col-span-6 sm:col-span-3">
+        <div class="col-span-6 sm:col-span-3 relative z-40">
             <x-label for="address" value="{{ __('Address') }}" />
             <input id="address" type="text"
                 class="mt-1 block w-full px-5 py-3 bg-white border border-stone-200 rounded-2xl focus:ring-2 focus:ring-green-600/20 focus:border-green-600 outline-none transition-all text-stone-800 text-[13px] font-medium placeholder-stone-300 shadow-sm"
@@ -109,7 +100,7 @@
             <x-input-error for="address" class="mt-2" />
         </div>
 
-        <div class="col-span-6 sm:col-span-3">
+        <div class="col-span-6 sm:col-span-3 relative z-30">
             <x-label for="city" value="{{ __('City') }}" />
             <input id="city" type="text"
                 class="mt-1 block w-full px-5 py-3 bg-white border border-stone-200 rounded-2xl focus:ring-2 focus:ring-green-600/20 focus:border-green-600 outline-none transition-all text-stone-800 text-[13px] font-medium placeholder-stone-300 shadow-sm"
@@ -117,7 +108,7 @@
             <x-input-error for="city" class="mt-2" />
         </div>
 
-        <div class="col-span-6 sm:col-span-3">
+        <div class="col-span-6 sm:col-span-3 relative z-20">
             <x-label for="postal_code" value="{{ __('Postal Code') }}" />
             <input id="postal_code" type="text"
                 class="mt-1 block w-full px-5 py-3 bg-white border border-stone-200 rounded-2xl focus:ring-2 focus:ring-green-600/20 focus:border-green-600 outline-none transition-all text-stone-800 text-[13px] font-medium placeholder-stone-300 shadow-sm"
@@ -125,17 +116,10 @@
             <x-input-error for="postal_code" class="mt-2" />
         </div>
 
-        <!-- Country -->
-        <div class="col-span-6 sm:col-span-3">
+        <!-- Country Selection -->
+        <div class="col-span-6 sm:col-span-3 relative z-10">
             <x-label for="country" value="{{ __('Country') }}" />
-            <div class="relative mt-1">
-                <x-input id="country" type="text"
-                    class="block w-full border-stone-100 bg-stone-50 text-stone-400 font-semibold cursor-not-allowed rounded-2xl"
-                    value="Sri Lanka" readonly />
-                <div class="absolute inset-y-0 right-0 flex items-center pr-6">
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-stone-300">DEFAULTED</span>
-                </div>
-            </div>
+            <x-country-select id="country" wire:model="state.country" :selected="$this->user->country ?? 'Sri Lanka'" />
             <x-input-error for="country" class="mt-2" />
         </div>
     </x-slot>

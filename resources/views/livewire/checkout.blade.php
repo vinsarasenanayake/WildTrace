@@ -99,35 +99,35 @@
                             <h3 class="text-2xl font-serif italic text-stone-900 leading-none mb-8">Shipping Details
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="space-y-2">
+                                <div class="space-y-2 relative z-[60]">
                                     <label
                                         class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Full
                                         Name</label>
                                     <input type="text" name="full_name" wire:model="full_name" required
                                         class="w-full bg-stone-50 border border-stone-100 rounded-2xl px-6 py-4 text-sm font-bold focus:outline-none focus:border-green-600 transition-all">
                                 </div>
-                                <div class="space-y-2">
+                                <div class="space-y-2 relative z-[50]">
                                     <label
                                         class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Email
                                         Address</label>
                                     <input type="email" name="email" wire:model="email" required
                                         class="w-full bg-stone-50 border border-stone-100 rounded-2xl px-6 py-4 text-sm font-bold focus:outline-none focus:border-green-600 transition-all">
                                 </div>
-                                <div class="space-y-2 md:col-span-2">
+                                <div class="space-y-2 md:col-span-2 relative z-[40]">
                                     <label
                                         class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Shipping
                                         Address</label>
                                     <input type="text" name="address" wire:model="address" required
                                         class="w-full bg-stone-50 border border-stone-100 rounded-2xl px-6 py-4 text-sm font-bold focus:outline-none focus:border-green-600 transition-all">
                                 </div>
-                                <div class="space-y-2">
+                                <div class="space-y-2 relative z-[30]">
                                     <label
                                         class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">City</label>
                                     <input type="text" name="city" wire:model="city" required maxlength="50"
                                         oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
                                         class="w-full bg-stone-50 border border-stone-100 rounded-2xl px-6 py-4 text-sm font-bold focus:outline-none focus:border-green-600 transition-all">
                                 </div>
-                                <div class="space-y-2">
+                                <div class="space-y-2 relative z-[25]">
                                     <label
                                         class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Postal
                                         Code</label>
@@ -135,33 +135,17 @@
                                         maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                         class="w-full bg-stone-50 border border-stone-100 rounded-2xl px-6 py-4 text-sm font-bold focus:outline-none focus:border-green-600 transition-all">
                                 </div>
-                                <div class="space-y-2">
+                                <div class="space-y-2 relative z-[20]">
                                     <label
                                         class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Country</label>
-                                    <div class="relative">
-                                        <input type="text" value="Sri Lanka" readonly
-                                            class="w-full px-6 py-4 bg-stone-100 border border-stone-200 rounded-2xl text-stone-400 text-sm font-bold cursor-not-allowed shadow-sm border-dashed">
-                                        <input type="hidden" name="country" value="SL">
-                                        <div class="absolute inset-y-0 right-0 flex items-center pr-6">
-                                            <span
-                                                class="text-[9px] font-bold uppercase tracking-widest text-stone-300">Defaulted</span>
-                                        </div>
-                                    </div>
+                                    <x-country-select name="country" wire:model="country" :selected="$country ?? 'Sri Lanka'" required />
                                 </div>
-                                <div class="space-y-2">
+                                <div class="space-y-2 relative z-[15]">
                                     <label
                                         class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Contact
                                         Number</label>
-                                    <div
-                                        class="flex rounded-2xl border border-stone-100 bg-stone-50 overflow-hidden focus-within:border-green-600 transition-all">
-                                        <span
-                                            class="inline-flex items-center px-4 border-r border-stone-100/50 bg-stone-100/50 text-stone-500 text-[13px] font-bold select-none">
-                                            +94
-                                        </span>
-                                        <input type="text" name="contact_number" wire:model="contact_number" required
-                                            maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                            class="w-full bg-transparent border-none outline-none px-6 py-4 text-sm font-bold">
-                                    </div>
+                                    <x-contact-input name="contact_number" wire:model="contact_number" required
+                                        placeholder="771234567" />
                                 </div>
                             </div>
                         </div>
