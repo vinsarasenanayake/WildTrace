@@ -7,56 +7,60 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    // Dashboard index
+    // Display the main administrative dashboard overview
     public function dashboard()
     {
         return view('admin.pages.dashboard');
     }
-    // Photographers index
+    // Manage the list of contributing photographers
     public function photographers()
     {
         return view('admin.pages.photographers.index');
     }
-    // Create photographer
+
+    // Launch the interface for registering a new photographer
     public function photographersCreate()
     {
         return view('admin.pages.photographers.create');
     }
-    // Edit photographer
+
+    // Modify existing photographer profiles and details
     public function photographersEdit($photographer)
     {
         return view('admin.pages.photographers.edit', compact('photographer'));
     }
 
-    // Users index
+    // Review and manage registered user accounts
     public function users()
     {
         return view('admin.pages.users.index');
     }
 
-    // Subscribers index
+    // Monitor and handle newsletter subscriber lists
     public function subscribers()
     {
         return view('admin.pages.subscribers.index');
     }
 
-    // Orders index
+    // Orchestrate and track customer order fulfillment
     public function orders()
     {
         return view('admin.pages.orders.index');
     }
 
-    // Milestones index
+    // Maintain the project's historical milestones timeline
     public function milestones()
     {
         return view('admin.pages.milestones.index');
     }
-    // Create milestone
+
+    // Define a new historical achievement for the company
     public function milestonesCreate()
     {
         return view('admin.pages.milestones.create');
     }
-    // Edit milestone
+
+    // Update the details of a specific timeline event
     public function milestonesEdit($milestone)
     {
         return view('admin.pages.milestones.edit', compact('milestone'));

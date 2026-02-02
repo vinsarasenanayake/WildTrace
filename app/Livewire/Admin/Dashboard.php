@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class Dashboard extends Component
 {
-    // Render Admin Dashboard Stats
+    // Gather and return statistics for the dashboard
+    #[Layout('layouts.admin')]
     public function render()
     {
         $stats = [
@@ -25,6 +26,6 @@ class Dashboard extends Component
 
         return view('livewire.admin.dashboard', [
             'stats' => $stats
-        ])->layout('layouts.admin');
+        ]);
     }
 }

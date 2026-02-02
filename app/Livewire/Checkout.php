@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 
 class Checkout extends Component
 {
@@ -15,6 +16,7 @@ class Checkout extends Component
         public $contact_number;
         public $postal_code;
 
+        // Initialize checkout page with cart data and user bio if logged in
         public function mount()
         {
                 $this->cart = session()->get('cart', []);
@@ -29,7 +31,6 @@ class Checkout extends Component
                         $this->city = ucwords(strtolower($user->city));
                         $this->contact_number = $user->contact_number;
                         $this->postal_code = $user->postal_code;
-                        // $this->country is already set to 'SL' as per previous conversation requirements
                 }
 
                 // Redirect if cart empty
@@ -38,6 +39,7 @@ class Checkout extends Component
                 }
         }
 
+        // Placeholder for form processing logic - handled via controller POST for security
         public function process()
         {
                 $this->validate([
@@ -89,8 +91,10 @@ class Checkout extends Component
                 // I will make the *View* a Livewire view.
         }
 
+        // Render the checkout view with a specific guest layout
+        #[Layout('layouts.guest', ['title' => 'Checkout', 'hasFooter' => false, 'fullWidth' => true])]
         public function render()
         {
-                return view('livewire.checkout')->layout('layouts.guest', ['title' => 'Checkout', 'hasFooter' => false, 'fullWidth' => true]);
+                return view('livewire.checkout');
         }
 }

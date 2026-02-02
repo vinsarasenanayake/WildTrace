@@ -7,8 +7,6 @@
     </div>
 
     <!-- NAVBAR -->
-    <!-- NAVBAR -->
-    <!-- NAVBAR -->
     <nav class="fixed top-6 left-0 right-0 z-50 mx-auto w-[95%]">
         <div
             class="flex items-center justify-between relative px-8 py-2 rounded-2xl bg-green-900/80 backdrop-blur-md border border-green-500/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] transition-all duration-300 hover:bg-green-900/90 hover:border-green-500/30">
@@ -93,7 +91,7 @@
 
             @if(count($cart) > 0)
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-                    <!-- Left: Items -->
+                    <!-- Cart Items Listing Section -->
                     <div class="lg:col-span-8 space-y-6 animate-reveal" style="animation-delay: 0.1s;">
                         @php $total = 0 @endphp
                         @foreach($cart as $id => $details)
@@ -149,7 +147,6 @@
                         @endforeach
                     </div>
 
-                    <!-- Right: Summary -->
                     <div class="lg:col-span-4 animate-reveal" style="animation-delay: 0.2s;">
                         <div class="bg-stone-900 rounded-[2.5rem] p-10 shadow-2xl text-white sticky top-32">
                             <h3 class="text-2xl font-serif italic mb-8">Summary</h3>
@@ -178,6 +175,7 @@
                     </div>
                 </div>
             @else
+                <!-- Empty Cart State Illustration -->
                 <div class="flex flex-col items-center justify-center py-24 animate-reveal">
                     <h2 class="text-2xl font-serif italic text-stone-500 mb-8">Your collection is empty.</h2>
                     <a href="{{ url('/gallery') }}"

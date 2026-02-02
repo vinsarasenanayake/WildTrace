@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    // Cart index
+    // Display the main shopping cart interface
     public function index()
     {
         return view('pages.cart');
     }
 
-    // Checkout view
+    // Launch the secure checkout portal
     public function checkout()
     {
         return view('pages.checkout');
@@ -101,7 +101,7 @@ class CartController extends Controller
         return redirect($session->url);
     }
 
-    // Repay an existing order
+    // Handle payment retries for previously failed or pending orders
     public function repay(\App\Models\Order $order)
     {
         if (($order->payment_status !== 'pending' && $order->payment_status !== 'declined') || $order->user_id !== auth()->id()) {
@@ -139,7 +139,7 @@ class CartController extends Controller
         return redirect($session->url);
     }
 
-    // Create a Stripe Checkout session
+    // Configure and instantiate a Stripe Checkout gateway session
     private function createStripeSession(array $lineItems, int $orderId, string $email): \Stripe\Checkout\Session
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -156,7 +156,7 @@ class CartController extends Controller
         return \Stripe\Checkout\Session::create($params);
     }
 
-    // Success callback
+    // Handle successful payment returns and finalize order status
     public function success(Request $request)
     {
         $sessionId = $request->get('session_id');
@@ -178,7 +178,7 @@ class CartController extends Controller
         return redirect()->route('home')->with('success', "Thank you for your order! Payment successful. Estimated delivery: $startDate - $endDate");
     }
 
-    // Cancel callback
+    // Process cancelled or failed checkout attempts
     public function cancel(Request $request)
     {
         if ($request->has('order_id')) {

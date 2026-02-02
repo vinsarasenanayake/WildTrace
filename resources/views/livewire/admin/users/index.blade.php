@@ -1,6 +1,7 @@
 @section('header', 'Users')
 
 <div class="space-y-6">
+    <!-- User Management List Section -->
     <div class="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
         <table class="w-full text-left text-sm text-stone-600">
             <thead class="bg-stone-50 text-xs uppercase font-bold text-stone-500">
@@ -43,6 +44,7 @@
                 @endforeach
             </tbody>
         </table>
+        <!-- User List Pagination Section -->
         <div class="p-6 border-t border-stone-100">
             {{ $users->links() }}
         </div>

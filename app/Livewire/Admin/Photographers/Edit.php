@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Photographers;
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
 use App\Models\Photographer;
 
@@ -25,6 +26,7 @@ class Edit extends Component
         'image' => 'required|string|max:255',
     ];
 
+    // Initialize photographer data for editing
     public function mount(Photographer $photographer)
     {
         $this->photographer = $photographer;
@@ -36,6 +38,7 @@ class Edit extends Component
         $this->image = $photographer->image;
     }
 
+    // Update photographer details in the database
     public function save()
     {
         $this->validate();
@@ -51,8 +54,10 @@ class Edit extends Component
         return redirect()->route('admin.photographers.index')->with('message', 'Photographer updated successfully.');
     }
 
+    // Render the edit photographer form view
+    #[Layout('layouts.admin')]
     public function render()
     {
-        return view('livewire.admin.photographers.edit')->layout('layouts.admin');
+        return view('livewire.admin.photographers.edit');
     }
 }

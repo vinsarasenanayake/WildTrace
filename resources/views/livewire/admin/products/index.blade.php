@@ -1,6 +1,7 @@
 @section('header', 'Products')
 
 <div class="space-y-6">
+    <!-- Search and Filter Section -->
     <div class="flex justify-between items-center">
         <div>
             <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search products..."
@@ -16,6 +17,7 @@
         </a>
     </div>
 
+    <!-- Products Table Section -->
     <div class="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
         <table class="w-full text-left text-sm text-stone-600">
             <thead class="bg-stone-50 text-xs uppercase font-bold text-stone-500">

@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Products;
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
 use App\Models\Product;
 use App\Models\Photographer;
@@ -42,6 +43,7 @@ class Edit extends Component
         'focal_length' => 'nullable|string',
     ];
 
+    // Load product data when the component is initialized
     public function mount(Product $product)
     {
         $this->product = $product;
@@ -59,6 +61,7 @@ class Edit extends Component
         $this->focal_length = $product->focal_length;
     }
 
+    // Update existing product details in the database
     public function save()
     {
         $this->validate();
@@ -81,10 +84,12 @@ class Edit extends Component
         return redirect()->route('admin.products.index')->with('message', 'Product updated successfully.');
     }
 
+    // Render the edit form view with the admin layout
+    #[Layout('layouts.admin')]
     public function render()
     {
         return view('livewire.admin.products.edit', [
             'photographers' => Photographer::orderBy('name')->get()
-        ])->layout('layouts.admin');
+        ]);
     }
 }

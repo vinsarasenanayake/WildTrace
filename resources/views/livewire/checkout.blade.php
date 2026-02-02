@@ -78,6 +78,7 @@
     </nav>
 
     <!-- MAIN -->
+    <!-- Main Checkout Content Container -->
     <main class="pt-32 pb-24 relative z-10">
         <div class="w-full px-4 md:px-8 lg:px-12">
             <div class="flex flex-col items-center mb-16 text-center animate-reveal">
@@ -87,7 +88,6 @@
                 </h1>
             </div>
 
-            <!-- Keeping standard Form Post for robustness with existing controller logic -->
             <form action="{{ route('checkout.process') }}" method="POST">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start w-full">
@@ -96,6 +96,7 @@
                     <div class="space-y-10 animate-reveal" style="animation-delay: 0.1s;">
                         <div
                             class="bg-white/80 backdrop-blur-xl border border-stone-200 rounded-[2.5rem] p-10 shadow-xl">
+                            <!-- Shipping Information Form Section -->
                             <h3 class="text-2xl font-serif italic text-stone-900 leading-none mb-8">Shipping Details
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -153,7 +154,7 @@
 
                     </div>
 
-                    <!-- Summary -->
+                    <!-- Order Summary and Payment Review Section -->
                     <div class="animate-reveal" style="animation-delay: 0.2s;">
                         <div class="bg-stone-900 rounded-[2.5rem] p-10 shadow-2xl text-white sticky top-32">
                             <h3 class="text-2xl font-serif italic mb-8">Order Review</h3>
@@ -185,8 +186,10 @@
                                 </div>
                             </div>
 
-                            <button type="submit"
-                                class="w-full py-6 bg-green-600 hover:bg-green-500 text-white text-xs font-black uppercase tracking-[0.3em] rounded-2xl transition-all shadow-[0_0_30px_rgba(74,222,128,0.3)] active:scale-[0.98]">
+                            <button type="submit" <!-- Payment Submission Trigger -->
+                                class="w-full py-6 bg-green-600 hover:bg-green-500 text-white text-xs font-black
+                                uppercase tracking-[0.3em] rounded-2xl transition-all
+                                shadow-[0_0_30px_rgba(74,222,128,0.3)] active:scale-[0.98]">
                                 Proceed to Payment
                             </button>
                             <p class="text-center text-xs text-stone-500 mt-4 font-medium opacity-60">You will be

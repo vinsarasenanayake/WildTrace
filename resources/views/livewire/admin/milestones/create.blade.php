@@ -3,6 +3,7 @@
 <div class="max-w-3xl mx-auto">
     <div class="bg-white rounded-2xl shadow-sm border border-stone-100 p-8">
         <form wire:submit.prevent="save" class="space-y-6">
+            <!-- Milestone Details Form Section -->
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div class="col-span-1">
@@ -33,8 +34,9 @@
             <div class="pt-4 flex items-center justify-end gap-4 border-t border-stone-100 mt-8">
                 <a href="{{ route('admin.milestones.index') }}"
                     class="text-stone-500 hover:text-stone-700 text-xs font-bold uppercase tracking-wider">Cancel</a>
-                <button type="submit"
-                    class="bg-green-600 hover:bg-green-500 text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-lg shadow-lg shadow-green-600/20 transition-all flex items-center gap-2">
+                <button type="submit" <!-- Form Action Buttons -->
+                    class="bg-green-600 hover:bg-green-500 text-white text-xs font-bold uppercase tracking-wider px-6
+                    py-3 rounded-lg shadow-lg shadow-green-600/20 transition-all flex items-center gap-2">
                     <span wire:loading.remove>Save Milestone</span>
                     <span wire:loading>Saving...</span>
                 </button>

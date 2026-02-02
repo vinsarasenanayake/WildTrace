@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Product;
 use Livewire\Attributes\Url;
+use Livewire\Attributes\Layout;
 use Illuminate\Support\Str;
 
 class ProductShow extends Component
@@ -26,6 +27,7 @@ class ProductShow extends Component
     public $loginPassword = '';
     public $showPassword = false;
 
+    // Process inline authentication requests
     public function performLogin()
     {
         $this->validate([
@@ -56,6 +58,7 @@ class ProductShow extends Component
         $this->resetValidation();
     }
 
+    // Initialize component with product details and related artifacts
     public function mount($id)
     {
         $this->product = Product::with('photographer')->findOrFail($id);
@@ -98,6 +101,7 @@ class ProductShow extends Component
             ->get();
     }
 
+    // Handle size variant selection
     public function selectSize($size, $price)
     {
         $this->selectedSize = $size;
@@ -117,6 +121,7 @@ class ProductShow extends Component
         }
     }
 
+    // Toggle the product's presence in user's favorites
     public function toggleFavorite()
     {
         if (!auth()->check()) {
@@ -140,6 +145,7 @@ class ProductShow extends Component
         }
     }
 
+    // Add selected variant to the shopping cart
     public function addToCart()
     {
         if (!auth()->check()) {
@@ -186,9 +192,10 @@ class ProductShow extends Component
         return redirect()->route('cart.index')->with('success', 'Product added to cart successfully!');
     }
 
+    // Display the detailed product information view
+    #[Layout('layouts.guest', ['title' => 'Product Details', 'hasFooter' => false, 'fullWidth' => true])]
     public function render()
     {
-        return view('livewire.product-show')
-            ->layout('layouts.guest', ['title' => $this->product->title, 'hasFooter' => false, 'fullWidth' => true]);
+        return view('livewire.product-show');
     }
 }

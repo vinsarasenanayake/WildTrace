@@ -11,20 +11,19 @@ class LoginForm extends Component
     // Use Livewire's query string handling instead of x-init
     protected $queryString = ['admin' => ['except' => '']];
 
+    // Initialize the login form and check if it's the admin entrance
     public function mount()
     {
         $this->isAdmin = request()->has('admin');
     }
 
+    // Switch between user and administrator login modes
     public function toggleAdmin($value)
     {
         $this->isAdmin = $value;
-        // Optionally update the URL query string if needed, 
-        // but Livewire's $queryString should handle binding changes to URL automatically on next request?
-        // Actually for real-time URL updates without refresh, we rely on Livewire 3 properties, 
-        // but let's just keep local state for formatting.
     }
 
+    // Render the login form view
     public function render()
     {
         return view('livewire.login-form');

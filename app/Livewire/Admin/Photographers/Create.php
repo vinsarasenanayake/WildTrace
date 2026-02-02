@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Photographers;
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
 use App\Models\Photographer;
 
@@ -24,6 +25,7 @@ class Create extends Component
         'image' => 'required|string|max:255',
     ];
 
+    // Create a new photographer entry in the database
     public function save()
     {
         $this->validate();
@@ -40,8 +42,10 @@ class Create extends Component
         return redirect()->route('admin.photographers.index')->with('message', 'Photographer created successfully.');
     }
 
+    // Render the create photographer form view
+    #[Layout('layouts.admin')]
     public function render()
     {
-        return view('livewire.admin.photographers.create')->layout('layouts.admin');
+        return view('livewire.admin.photographers.create');
     }
 }

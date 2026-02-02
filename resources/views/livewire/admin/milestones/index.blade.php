@@ -1,6 +1,7 @@
 @section('header', 'Milestones')
 
 <div class="space-y-6">
+    <!-- Header and Actions Section -->
     <div class="flex justify-between items-center">
         <div></div>
         <a href="{{ route('admin.milestones.create') }}"
@@ -13,6 +14,7 @@
         </a>
     </div>
 
+    <!-- Milestones Table Section -->
     <div class="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
         <table class="w-full text-left text-sm text-stone-600">
             <thead class="bg-stone-50 text-xs uppercase font-bold text-stone-500">

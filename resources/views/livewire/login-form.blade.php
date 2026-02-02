@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <!-- Form Card -->
+    <!-- Authentication Credentials Form Card -->
     <div
         class="bg-white/95 backdrop-blur-3xl border border-stone-200 rounded-3xl p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)]">
         <x-validation-errors class="mb-4 text-[10px] text-red-500 font-bold uppercase tracking-wide text-center" />

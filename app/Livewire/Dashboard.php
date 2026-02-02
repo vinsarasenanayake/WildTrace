@@ -14,6 +14,7 @@ class Dashboard extends Component
     #[Url(history: true)]
     public $activeTab = 'favorites';
 
+    // Check user permissions and handle initial setup
     public function mount()
     {
         // Redirect admins to admin dashboard
@@ -22,6 +23,7 @@ class Dashboard extends Component
         }
     }
 
+    // Load user favorites and orders for the dashboard view
     #[Layout('layouts.guest', ['title' => 'Dashboard', 'hasFooter' => true, 'fullWidth' => true])]
     public function render()
     {
@@ -37,12 +39,14 @@ class Dashboard extends Component
     }
 
     // Toggle Tab Logic
+    // Switch between profile sections (Favorites, Orders, Settings)
     public function setTab($tab)
     {
         $this->activeTab = $tab;
     }
 
     // Remove item from favorites
+    // Delete a record from the user's favorite list
     public function removeFavorite($favoriteId)
     {
         $fav = \App\Models\Favorite::where('id', $favoriteId)->where('user_id', Auth::id())->first();
@@ -52,6 +56,7 @@ class Dashboard extends Component
     }
 
     // Cancel a pending order
+    // Terminate a pending order request
     public function cancelOrder($orderId)
     {
         $order = \App\Models\Order::where('id', $orderId)->where('user_id', Auth::id())->first();

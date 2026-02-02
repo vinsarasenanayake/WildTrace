@@ -1,6 +1,7 @@
 @section('header', 'Subscribers')
 
 <div class="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
+    <!-- Subscriber Table Header Section -->
     <div class="p-6 border-b border-stone-100 flex justify-between items-center">
         <h3 class="text-lg font-bold text-stone-900">Newsletter Subscribers</h3>
         <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold uppercase tracking-wider">
@@ -14,6 +15,7 @@
         </div>
     @endif
 
+    <!-- Subscribers List Section -->
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm text-stone-600">
             <thead class="bg-stone-50 text-xs uppercase font-bold text-stone-500">

@@ -3,6 +3,7 @@
 <div class="max-w-3xl mx-auto">
     <div class="bg-white rounded-2xl shadow-sm border border-stone-100 p-8">
         <form wire:submit.prevent="save" class="space-y-6">
+            <!-- Photographer Data Update Form Section -->
 
             <!-- Name -->
             <div>
@@ -52,7 +53,7 @@
                 @error('post') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Image Path -->
+            <!-- Photographer Profile Image Update Section -->
             <div>
                 <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Image Path</label>
 
@@ -73,8 +74,9 @@
             <div class="pt-4 flex items-center justify-end gap-4">
                 <a href="{{ route('admin.photographers.index') }}"
                     class="text-stone-500 hover:text-stone-700 text-xs font-bold uppercase tracking-wider">Cancel</a>
-                <button type="submit"
-                    class="bg-green-600 hover:bg-green-500 text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-lg shadow-lg shadow-green-600/20 transition-all flex items-center gap-2">
+                <button type="submit" <!-- Form Submit Action -->
+                    class="bg-green-600 hover:bg-green-500 text-white text-xs font-bold uppercase tracking-wider px-6
+                    py-3 rounded-lg shadow-lg shadow-green-600/20 transition-all flex items-center gap-2">
                     <span wire:loading.remove>Update Photographer</span>
                     <span wire:loading>Updating...</span>
                 </button>

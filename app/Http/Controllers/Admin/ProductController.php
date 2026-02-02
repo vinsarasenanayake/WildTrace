@@ -8,20 +8,20 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // List products
+    // Display a complete list of all artifacts in the system
     public function index()
     {
         $products = Product::latest()->get();
         return view('admin.dashboard', compact('products'))->with('title', 'Admin Dashboard');
     }
 
-    // Create product view
+    // Open the creation form for a new artifact
     public function create()
     {
         return view('admin.products.create')->with('title', 'Add Artifact');
     }
 
-    // Store product
+    // Validate and persist a new artifact record to the database
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -38,13 +38,13 @@ class ProductController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Product created successfully.');
     }
 
-    // Edit product view
+    // Access the editing interface for an existing artifact
     public function edit(Product $product)
     {
         return view('admin.products.edit', compact('product'))->with('title', 'Edit Artifact');
     }
 
-    // Update product
+    // Apply updates to an existing artifact's information
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
@@ -61,7 +61,7 @@ class ProductController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Product updated successfully.');
     }
 
-    // Delete product
+    // Permanently remove an artifact from the inventory
     public function destroy(Product $product)
     {
         $product->delete();

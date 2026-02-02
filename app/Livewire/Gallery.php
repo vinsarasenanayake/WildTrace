@@ -17,6 +17,7 @@ class Gallery extends Component
     public $sort = 'newest';
     public $email = '';
 
+    // Prevent admin users from accessing the guest gallery
     public function mount()
     {
         if (Auth::check() && Auth::user()->is_admin) {
@@ -28,6 +29,7 @@ class Gallery extends Component
         'email' => 'required|email',
     ];
 
+    // Process newsletter subscription requests
     public function subscribe()
     {
         $this->validate();
@@ -35,7 +37,7 @@ class Gallery extends Component
         $this->reset('email');
     }
 
-    // Reset pagination when filters update
+    // Reset pagination when any filter selection is modified
     public function updatedPhotographer()
     {
         $this->resetPage();
@@ -49,6 +51,7 @@ class Gallery extends Component
         $this->resetPage();
     }
 
+    // Clear all active gallery filters
     public function clearFilters()
     {
         $this->reset(['photographer', 'category', 'sort']);
@@ -60,6 +63,7 @@ class Gallery extends Component
     public $loginPassword = '';
     public $showPassword = false;
 
+    // Handle guest login requests via the inline modal
     public function performLogin()
     {
         $this->validate([
@@ -90,6 +94,7 @@ class Gallery extends Component
         $this->resetValidation();
     }
 
+    // Quick add product to cart for authenticated users
     public function addToCart($productId)
     {
         if (!auth()->check()) {
@@ -122,6 +127,7 @@ class Gallery extends Component
         session()->put('cart', $cart);
     }
 
+    // Toggle product favorite status for the current user
     public function toggleFavorite($productId)
     {
         if (!auth()->check()) {
@@ -143,6 +149,7 @@ class Gallery extends Component
         }
     }
 
+    // Fetch and filter products for the gallery display
     #[Layout('layouts.guest', ['title' => 'Gallery', 'hasFooter' => false, 'fullWidth' => true])]
     public function render()
     {

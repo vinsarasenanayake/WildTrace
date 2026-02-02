@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Subscribers;
 
 use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Models\Subscriber;
 
@@ -10,13 +11,16 @@ class Index extends Component
 {
     use WithPagination;
 
+    // Render the subscriber list with pagination
+    #[Layout('layouts.admin')]
     public function render()
     {
         return view('livewire.admin.subscribers.index', [
             'subscribers' => Subscriber::latest()->paginate(10)
-        ])->layout('layouts.admin');
+        ]);
     }
 
+    // Remove a subscriber from the list
     public function delete($id)
     {
         $subscriber = Subscriber::find($id);

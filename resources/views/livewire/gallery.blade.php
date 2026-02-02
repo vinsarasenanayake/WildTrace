@@ -5,7 +5,7 @@
         <div class="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-green-600/5 rounded-full blur-[150px]"></div>
     </div>
 
-    <!-- NAVBAR (Copied from original, can be a component later) -->
+    <!-- NAVBAR -->
     <nav class="fixed top-6 left-0 right-0 z-50 mx-auto w-[95%]">
         <div
             class="flex items-center justify-between relative px-8 py-2 rounded-2xl bg-green-900/80 backdrop-blur-md border border-green-500/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] transition-all duration-300 hover:bg-green-900/90 hover:border-green-500/30">
@@ -51,7 +51,6 @@
                 </a>
                 @endauth
                 @auth
-                    <!-- Profile Link (Dashboard) -->
                     <a href="{{ url('/dashboard') }}" class="relative group focus:outline-none" title="Dashboard">
                         <img src="{{ Auth::user()->profile_photo_url }}"
                             class="w-8 h-8 rounded-full border-2 border-green-500/30 hover:border-green-400 transition-all">
@@ -150,7 +149,6 @@
                         </select>
                     </div>
 
-                    <!-- Clear Filter Button -->
                     <button wire:click="clearFilters" 
                         class="text-[10px] font-bold uppercase text-stone-400 hover:text-stone-600 transition-colors tracking-widest ml-4">
                         Clear Filters
@@ -217,9 +215,7 @@
                 @endforelse
             </div>
 
-            <!-- Pagination -->
-            <div class="mt-24">
-                {{ $products->links('pagination.custom') }}
+            {{ $products->links('pagination.custom') }}
             </div>
         </div>
     </main>
@@ -265,7 +261,6 @@
                     <div class="flex gap-4 mb-8 justify-center">
                         <!-- Instagram -->
                         <a href="https://www.instagram.com/wild_trace/" target="_blank" class="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-300 group">
-                            <!-- Simpler Instagram Icon Layout -->
                             <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path fill-rule="evenodd" d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.66 0 3 1.34 3 3v10c0 1.66-1.34 3-3 3H7c-1.66 0-3-1.34-3-3V7c0-1.66 1.34-3 3-3h10zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm5.5-1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" clip-rule="evenodd"/>
                             </svg>
@@ -315,8 +310,6 @@
             </div>
         </div>
     </footer>
-    <!-- Simple Login Modal -->
-    <!-- Styled Login Modal -->
     @if($showLoginModal)
     <div class="fixed inset-0 flex items-center justify-center p-4" style="z-index: 100000;">
         <!-- Backdrop with Blur -->

@@ -2,6 +2,7 @@
 
 <div class="space-y-8">
     <!-- Stats Grid -->
+    <!-- Stats Overview Section -->
     <div class="flex flex-row gap-6 w-full">
         <!-- Revenue -->
         <div class="flex-1 min-w-0 bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
@@ -96,6 +97,7 @@
         <div class="p-6 border-b border-stone-100">
             <h3 class="text-lg font-bold text-stone-900">Recent Orders</h3>
         </div>
+        <!-- Recent Orders Table Section -->
         <div class="overflow-x-auto">
             <table class="w-full text-left text-sm text-stone-600">
                 <thead class="bg-stone-50 text-xs uppercase font-bold text-stone-500">
@@ -118,7 +120,7 @@
                                         <td class="px-6 py-4">
                                             <span
                                                 class="px-2 py-1 rounded-full text-[10px] uppercase font-bold tracking-wider 
-                                                                                    {{ ($order->status ?? 'pending') === 'confirmed' ? 'bg-green-100 text-green-700' :
+                                                                                                    {{ ($order->status ?? 'pending') === 'confirmed' ? 'bg-green-100 text-green-700' :
                         (($order->status === 'declined' || $order->status === 'cancelled') ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700') }}">
                                                 {{ $order->status ?? 'Pending' }}
                                             </span>

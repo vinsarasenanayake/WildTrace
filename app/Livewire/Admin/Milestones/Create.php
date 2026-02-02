@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Milestones;
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use App\Models\Milestone;
 
 class Create extends Component
@@ -17,6 +18,7 @@ class Create extends Component
         'description' => 'required|string',
     ];
 
+    // Save a new milestone to the database
     public function save()
     {
         $this->validate();
@@ -30,8 +32,10 @@ class Create extends Component
         return redirect()->route('admin.milestones.index')->with('message', 'Milestone created successfully.');
     }
 
+    // Render the create milestone form view
+    #[Layout('layouts.admin')]
     public function render()
     {
-        return view('livewire.admin.milestones.create')->layout('layouts.admin');
+        return view('livewire.admin.milestones.create');
     }
 }

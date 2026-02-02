@@ -76,10 +76,9 @@
         </div>
     </nav>
 
-    <!-- Main Product Section -->
     <main class="pt-32 pb-24 relative z-10">
         <div class="container mx-auto px-6">
-            <!-- Header -->
+            <!-- Product Title and Category Header -->
             <div class="flex flex-col items-center mb-16 text-center animate-reveal">
                 <span
                     class="text-green-600 text-xs font-black uppercase tracking-[0.5em] mb-4 text-glow">{{ $product->category }}</span>
@@ -106,7 +105,7 @@
                     </div>
                 </div>
 
-                <!-- Right: Purchase -->
+                <!-- Right Side: Purchase Options and Add to Cart Section -->
                 <div class="lg:col-span-4 space-y-8 animate-reveal" style="animation-delay: 0.2s;">
                     <div class="bg-white/80 backdrop-blur-xl border border-stone-200 rounded-[2.5rem] p-10 shadow-xl">
                         <div class="flex justify-between items-start mb-8">
@@ -201,7 +200,7 @@
                 </div>
             </div>
 
-            <!-- Behind the Lens -->
+            <!-- Behind the Lens: Technical Details and Photographer Note -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-16 mb-24 items-center">
                 <div class="lg:col-span-2 animate-reveal" style="animation-delay: 0.3s;">
                     <h2 class="text-3xl font-serif italic mb-6 text-stone-900 border-l-4 border-green-600 pl-6">Behind the Lens</h2>
@@ -265,7 +264,7 @@
                 </div>
             </div>
 
-            <!-- Related -->
+            <!-- Related Artifacts: Discover More from the Collection -->
             <div class="pt-24 border-t border-stone-200">
                 <div class="flex justify-between items-end mb-12">
                     <h2 class="text-4xl font-serif italic text-stone-900">Similar Artifacts</h2>
@@ -300,7 +299,6 @@
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                 
-                <!-- Brand Section -->
                 <div class="flex flex-col items-center text-center space-y-4">
                     <a href="/" class="flex flex-col items-center gap-4 group">
                         <img src="{{ asset('images/logo.png') }}" alt="WildTrace Logo" class="w-16 h-16 object-contain opacity-90 group-hover:opacity-100 transition-opacity">

@@ -7,25 +7,25 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    // Home page
+    // Serve the main landing page of the application
     public function home()
     {
         return view('pages.home');
     }
 
-    // Journey page
+    // Display the brand story and timeline page
     public function journey()
     {
         return view('pages.journey');
     }
 
-    // Gallery page
+    // Show the gallery grid of all products
     public function gallery()
     {
         return view('pages.gallery');
     }
 
-    // Product page
+    // Render the detailed view for a specific product
     public function product($id)
     {
         return view('pages.product-show', compact('id'));

@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Milestones;
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use App\Models\Milestone;
 
 class Edit extends Component
@@ -18,6 +19,7 @@ class Edit extends Component
         'description' => 'required|string',
     ];
 
+    // Load milestone data for editing
     public function mount(Milestone $milestone)
     {
         $this->milestone = $milestone;
@@ -26,6 +28,7 @@ class Edit extends Component
         $this->description = $milestone->description;
     }
 
+    // Update the milestone details in the database
     public function save()
     {
         $this->validate();
@@ -39,8 +42,10 @@ class Edit extends Component
         return redirect()->route('admin.milestones.index')->with('message', 'Milestone updated successfully.');
     }
 
+    // Render the edit milestone form view
+    #[Layout('layouts.admin')]
     public function render()
     {
-        return view('livewire.admin.milestones.edit')->layout('layouts.admin');
+        return view('livewire.admin.milestones.edit');
     }
 }

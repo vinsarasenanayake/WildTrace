@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    // Dashboard index
+    // Display the personalized user control panel
     public function index()
     {
         return view('pages.user.dashboard');

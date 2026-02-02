@@ -8,6 +8,7 @@
     </div>
 
     <!-- NAVBAR -->
+    <!-- Navigation Menu Section -->
     <nav class="fixed top-6 left-0 right-0 z-50 mx-auto w-[95%]">
         <div
             class="flex items-center justify-between relative px-8 py-2 rounded-2xl bg-green-900/80 backdrop-blur-md border border-green-500/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] transition-all duration-300 hover:bg-green-900/90 hover:border-green-500/30">
@@ -67,6 +68,7 @@
     </nav>
 
     <!-- DASHBOARD CONTENT -->
+    <!-- Main Dashboard Body Container -->
     <main class="relative z-10 pt-32 pb-24 px-6 md:px-12 w-full flex-grow min-h-[70vh]">
 
         <!-- Welcome Header -->
@@ -81,6 +83,7 @@
         </div>
 
         <!-- Tabs & Action -->
+        <!-- Navigation Tabs for Switching Between Favorites and Orders -->
         <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-stone-200 mb-10 pb-1 gap-4" wire:ignore.self>
             <div class="flex gap-8 overflow-x-auto">
                 <button wire:click="setTab('favorites')"
@@ -114,6 +117,7 @@
         </div>
 
         <!-- Favorites Tab -->
+        <!-- Favorites Collection Grid Section -->
         @if($activeTab === 'favorites')
             <div class="animate-fade-in space-y-8">
                 @if($favorites->count() > 0)
@@ -193,6 +197,7 @@
         @endif
 
         <!-- Order History Tab -->
+        <!-- Order History and Status Tracking Section -->
         @if($activeTab === 'orders')
             <div class="animate-fade-in space-y-6 max-w-4xl mx-auto">
                 @if($orders->count() > 0)
