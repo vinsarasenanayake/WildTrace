@@ -46,9 +46,13 @@
                         <label
                             class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Photographer
                             Name</label>
-                        <input type="text" name="photographer" required
-                            class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold"
-                            placeholder="Author Name">
+                        <select name="photographer_id" required
+                            class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold appearance-none">
+                            <option value="">Select Photographer</option>
+                            @foreach ($photographers as $photographer)
+                                <option value="{{ $photographer->id }}">{{ $photographer->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 

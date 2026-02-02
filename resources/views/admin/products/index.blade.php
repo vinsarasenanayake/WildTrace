@@ -33,7 +33,9 @@
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-4">
                                 <div class="w-12 h-16 rounded-lg overflow-hidden bg-stone-100 flex-shrink-0">
-                                    <img src="{{ $product->image_url }}" alt="" class="w-full h-full object-cover">
+                                    <img src="{{ asset($product->image_url) }}"
+                                        onerror="this.src='https://placehold.co/100'" alt=""
+                                        class="w-full h-full object-cover">
                                 </div>
                                 <span class="font-bold text-stone-800 tracking-tight">{{ $product->title }}</span>
                             </div>

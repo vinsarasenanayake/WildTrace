@@ -6,7 +6,8 @@
                 <p class="text-stone-500 mt-2">Refine the details of your masterpiece.</p>
             </div>
             <div class="w-16 h-20 rounded-2xl overflow-hidden shadow-2xl rotate-3">
-                <img src="{{ $product->image_url }}" alt="" class="w-full h-full object-cover">
+                <img src="{{ asset($product->image_url) }}" onerror="this.src='https://placehold.co/100'" alt=""
+                    class="w-full h-full object-cover">
             </div>
         </div>
 
@@ -55,9 +56,15 @@
                         <label
                             class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Photographer
                             Name</label>
-                        <input type="text" name="photographer" value="{{ $product->photographer }}" required
-                            class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold"
-                            placeholder="Author Name">
+                        <select name="photographer_id" required
+                            class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold appearance-none">
+                            <option value="">Select Photographer</option>
+                            @foreach ($photographers as $photographer)
+                                <option value="{{ $photographer->id }}" {{ $product->photographer_id == $photographer->id ? 'selected' : '' }}>
+                                    {{ $photographer->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 

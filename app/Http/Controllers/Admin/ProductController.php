@@ -18,7 +18,8 @@ class ProductController extends Controller
     // Open the creation form for a new artifact
     public function create()
     {
-        return view('admin.products.create')->with('title', 'Add Artifact');
+        $photographers = \App\Models\Photographer::all();
+        return view('admin.products.create', compact('photographers'))->with('title', 'Add Artifact');
     }
 
     // Validate and persist a new artifact record to the database
@@ -28,7 +29,7 @@ class ProductController extends Controller
             'title' => 'required',
             'price' => 'required|numeric',
             'category' => 'required',
-            'photographer' => 'required',
+            'photographer_id' => 'required|exists:photographers,id',
             'image_url' => 'required|url',
             'description' => 'nullable',
         ]);
@@ -41,7 +42,8 @@ class ProductController extends Controller
     // Access the editing interface for an existing artifact
     public function edit(Product $product)
     {
-        return view('admin.products.edit', compact('product'))->with('title', 'Edit Artifact');
+        $photographers = \App\Models\Photographer::all();
+        return view('admin.products.edit', compact('product', 'photographers'))->with('title', 'Edit Artifact');
     }
 
     // Apply updates to an existing artifact's information
@@ -51,7 +53,7 @@ class ProductController extends Controller
             'title' => 'required',
             'price' => 'required|numeric',
             'category' => 'required',
-            'photographer' => 'required',
+            'photographer_id' => 'required|exists:photographers,id',
             'image_url' => 'required|url',
             'description' => 'nullable',
         ]);
