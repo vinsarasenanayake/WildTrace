@@ -1,3 +1,4 @@
+<div>
 <div class="min-h-screen bg-stone-50 font-sans text-stone-800 selection:bg-green-600 selection:text-white relative overflow-x-hidden">
     <!-- Background global -->
     <div class="fixed inset-0 z-0 pointer-events-none">
@@ -370,4 +371,5 @@
         </div>
     </div>
     @endif
+</div>
 </div>
