@@ -18,8 +18,23 @@ class Index extends Component
         if ($id == auth()->id()) {
             return;
         }
-        User::find($id)->delete();
-        session()->flash('message', 'User deleted successfully.');
+
+        $user = User::findOrFail($id);
+
+        // Manually delete related data to fix foreign key constraint
+        // Delete Orders and their items
+        foreach ($user->orders as $order) {
+            $order->items()->delete(); // Delete Order Items first
+            $order->delete();          // Then delete the Order
+        }
+
+        // Delete Favorites
+        $user->favorites()->delete();
+
+        // Finally, delete the User
+        $user->delete();
+
+        session()->flash('message', 'User and all related data deleted successfully.');
     }
 
     // Render the user management list with pagination
