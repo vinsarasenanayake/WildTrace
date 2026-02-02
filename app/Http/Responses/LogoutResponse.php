@@ -6,12 +6,7 @@ use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
 
 class LogoutResponse implements LogoutResponseContract
 {
-    /**
-     * Create an HTTP response that represents the object.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
+    // Create an HTTP response that represents the object
     public function toResponse($request)
     {
         $previousUrl = url()->previous();

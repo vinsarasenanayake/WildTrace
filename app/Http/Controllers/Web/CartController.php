@@ -51,7 +51,6 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
         }
 
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $lineItems = [];
         $totalPrice = 0;
@@ -90,15 +89,7 @@ class CartController extends Controller
             ]);
         }
 
-        $session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => $lineItems,
-            'mode' => 'payment',
-            'success_url' => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('checkout.cancel') . '?order_id=' . $order->id,
-            'customer_email' => $request->email,
-        ]);
-
+        $session = $this->createStripeSession($lineItems, $order->id, $request->email);
         $order->session_id = $session->id;
         $order->save();
 
@@ -110,14 +101,13 @@ class CartController extends Controller
         return redirect($session->url);
     }
 
-    // Repay order
+    // Repay an existing order
     public function repay(\App\Models\Order $order)
     {
         if (($order->payment_status !== 'pending' && $order->payment_status !== 'declined') || $order->user_id !== auth()->id()) {
             return redirect()->route('dashboard')->with('error', 'Unable to process this payment.');
         }
 
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $lineItems = [];
         foreach ($order->items as $item) {
@@ -140,20 +130,30 @@ class CartController extends Controller
             ];
         }
 
-        $session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => $lineItems,
-            'mode' => 'payment',
-            'success_url' => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('checkout.cancel') . '?order_id=' . $order->id,
-            'customer_email' => auth()->user()->email,
-        ]);
+        $session = $this->createStripeSession($lineItems, $order->id, auth()->user()->email);
 
         $order->session_id = $session->id;
         $order->payment_status = 'pending';
         $order->save();
 
         return redirect($session->url);
+    }
+
+    // Create a Stripe Checkout session
+    private function createStripeSession(array $lineItems, int $orderId, string $email): \Stripe\Checkout\Session
+    {
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $params = [
+            'payment_method_types' => ['card'],
+            'line_items' => $lineItems,
+            'mode' => 'payment',
+            'success_url' => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('checkout.cancel') . '?order_id=' . $orderId,
+            'customer_email' => $email,
+        ];
+
+        return \Stripe\Checkout\Session::create($params);
     }
 
     // Success callback

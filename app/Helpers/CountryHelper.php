@@ -2,22 +2,10 @@
 
 namespace App\Helpers;
 
-/**
- * CountryHelper provides a centralized source for country data
- * including ISO codes and international dialing prefixes.
- */
+// CountryHelper provides a centralized source for country data
 class CountryHelper
 {
-    /**
-     * Retrieves a comprehensive list of supported countries.
-     * Each country entry includes its name, ISO 2-letter code,
-     * and international dialing prefix.
-     *
-     * This list is suitable for use in dropdowns, validation,
-     * and other country-specific data requirements.
-     *
-     * @return array An array of country data arrays.
-     */
+    // Retrieves a comprehensive list of supported countries
     public static function getAll(): array
     {
         return [
