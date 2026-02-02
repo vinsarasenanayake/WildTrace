@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Milestone;
+use App\Models\Photographer;
+
 class AdminController extends Controller
 {
     // Display the main administrative dashboard overview
@@ -25,7 +28,7 @@ class AdminController extends Controller
     }
 
     // Modify existing photographer profiles and details
-    public function photographersEdit($photographer)
+    public function photographersEdit(Photographer $photographer)
     {
         return view('admin.pages.photographers.edit', compact('photographer'));
     }
@@ -61,7 +64,7 @@ class AdminController extends Controller
     }
 
     // Update the details of a specific timeline event
-    public function milestonesEdit($milestone)
+    public function milestonesEdit(Milestone $milestone)
     {
         return view('admin.pages.milestones.edit', compact('milestone'));
     }
