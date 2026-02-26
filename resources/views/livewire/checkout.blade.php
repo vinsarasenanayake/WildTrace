@@ -1,5 +1,5 @@
 <div
-    class="min-h-screen bg-stone-50 font-sans text-stone-800 selection:bg-green-600 selection:text-white relative overflow-x-hidden">
+    class="flex flex-col min-h-screen bg-stone-50 font-sans text-stone-800 selection:bg-green-600 selection:text-white relative overflow-x-hidden">
 
     <div class="fixed inset-0 z-0 pointer-events-none">
         <div class="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-green-600/5 rounded-full blur-[150px]">
@@ -69,7 +69,7 @@
         </div>
     </nav>
 
-    <main class="pt-32 pb-24 relative z-10">
+    <main class="flex-grow pt-32 pb-24 relative z-10">
         <div class="w-full px-4 md:px-8 lg:px-12">
             <div class="flex flex-col items-center mb-16 text-center animate-reveal">
                 <span class="text-green-600 text-xs font-black uppercase tracking-[0.5em] mb-4 text-glow">FINAL
@@ -188,7 +188,7 @@
         </div>
     </main>
 
-    <footer class="bg-stone-950 pt-20 pb-10 text-stone-400 border-t border-white/5 relative z-10 font-sans mt-24">
+    <footer class="mt-auto bg-stone-950 pt-20 pb-10 text-stone-400 border-t border-white/5 relative z-10 font-sans">
         <div class="container mx-auto px-6">
             <div class="border-t border-white/5 pt-8 pb-12 flex items-center justify-center">
                 <p class="text-[10px] font-medium text-stone-600 text-center">Copyright &copy; 2026 <span

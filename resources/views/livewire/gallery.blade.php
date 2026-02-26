@@ -231,8 +231,7 @@
 
 
 
-
-    <footer class="bg-stone-950 pt-12 pb-10 text-stone-400 border-t border-white/5 relative z-10 font-sans">
+    <footer class="bg-stone-950 pt-20 pb-10 text-stone-400 border-t border-white/5 relative z-10 font-sans">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
 

@@ -1,4 +1,9 @@
-@props(['title' => null, 'hasFooter' => true, 'fullWidth' => false, 'lightBg' => false])
+@php
+    $title = $title ?? (isset($attributes) && $attributes->has('title') ? $attributes->get('title') : null);
+    $hasFooter = isset($hasFooter) ? $hasFooter : (isset($attributes) && $attributes->has('hasFooter') ? $attributes->get('hasFooter') : true);
+    $fullWidth = isset($fullWidth) ? $fullWidth : (isset($attributes) && $attributes->has('fullWidth') ? $attributes->get('fullWidth') : false);
+    $lightBg = isset($lightBg) ? $lightBg : (isset($attributes) && $attributes->has('lightBg') ? $attributes->get('lightBg') : false);
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -36,16 +41,7 @@
             {{ $slot }}
         </main>
 
-        @if($hasFooter)
-            <footer class="bg-stone-950 pt-20 pb-10 text-stone-400 border-t border-white/5 relative z-10 font-sans">
-                <div class="container mx-auto px-6">
-                    <div class="border-t border-white/5 pt-8 pb-12 flex items-center justify-center">
-                        <p class="text-[10px] font-medium text-stone-600 text-center">Copyright &copy; 2026 <span
-                                class="text-stone-400 uppercase">WILDTRACE</span>. All Rights Reserved.</p>
-                    </div>
-                </div>
-            </footer>
-        @endif
+
     </div>
 
     @livewireScripts
