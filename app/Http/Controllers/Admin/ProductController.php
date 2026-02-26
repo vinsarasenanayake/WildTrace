@@ -41,8 +41,8 @@ class ProductController extends Controller
             'frame_price_4' => 'required|numeric|min:0',
         ]);
 
-        $imagePath = $request->file('image_file')->store('images/products', 'public');
-        $validated['image_url'] = 'storage/' . $imagePath;
+        $imagePath = $request->file('image_file')->store('images/products', 'supabase');
+        $validated['image_url'] = env('SUPABASE_PUBLIC_URL') . '/' . env('SUPABASE_BUCKET') . '/' . $imagePath;
 
         $validated['price'] = (float) $validated['frame_price_1'];
 
@@ -96,8 +96,8 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('image_file')) {
-            $imagePath = $request->file('image_file')->store('images/products', 'public');
-            $validated['image_url'] = 'storage/' . $imagePath;
+            $imagePath = $request->file('image_file')->store('images/products', 'supabase');
+            $validated['image_url'] = env('SUPABASE_PUBLIC_URL') . '/' . env('SUPABASE_BUCKET') . '/' . $imagePath;
         } else {
             $validated['image_url'] = $validated['existing_image_url'] ?? $product->image_url;
         }

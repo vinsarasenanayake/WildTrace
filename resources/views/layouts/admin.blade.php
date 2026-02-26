@@ -21,7 +21,7 @@
     </style>
 </head>
 
-<body class="font-sans antialiased bg-stone-900 overscroll-none overflow-x-hidden">
+<body class="font-sans antialiased bg-white overscroll-none overflow-x-hidden">
     <div class="min-h-screen flex flex-col">
         <nav class="bg-stone-900 border-b border-stone-800 text-white z-50 sticky top-0">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

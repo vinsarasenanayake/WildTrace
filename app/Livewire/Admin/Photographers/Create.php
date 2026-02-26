@@ -32,7 +32,7 @@ class Create extends Component
     {
         $this->validate();
 
-        $path = $this->photo->store('images/photographers', 'public');
+        $path = $this->photo->store('images/photographers', 'supabase');
 
         Photographer::create([
             'name' => $this->name,
@@ -40,7 +40,7 @@ class Create extends Component
             'achievement' => $this->achievement,
             'quote' => $this->quote,
             'post' => $this->post,
-            'image' => 'storage/' . $path,
+            'image' => env('SUPABASE_PUBLIC_URL') . '/' . env('SUPABASE_BUCKET') . '/' . $path,
         ]);
 
         return redirect()->route('admin.photographers.index')->with('message', 'Photographer created successfully.');

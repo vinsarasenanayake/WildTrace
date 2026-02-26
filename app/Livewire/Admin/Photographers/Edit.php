@@ -45,8 +45,8 @@ class Edit extends Component
         $this->validate();
 
         if ($this->photo) {
-            $path = $this->photo->store('images/photographers', 'public');
-            $this->photographer->image = 'storage/' . $path;
+            $path = $this->photo->store('images/photographers', 'supabase');
+            $this->photographer->image = env('SUPABASE_PUBLIC_URL') . '/' . env('SUPABASE_BUCKET') . '/' . $path;
         }
 
         $this->photographer->name = $this->name;
