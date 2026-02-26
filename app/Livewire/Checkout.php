@@ -49,7 +49,7 @@ class Checkout extends Component
 
         }
 
-        #[Layout('layouts.guest', ['title' => 'Checkout', 'hasFooter' => false, 'fullWidth' => true])]
+        #[Layout('layouts.checkout')]
         public function render()
         {
                 return view('livewire.checkout');

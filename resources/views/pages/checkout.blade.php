@@ -1,3 +1,3 @@
-<x-guest-layout title="Checkout" :fullWidth="false" :hasFooter="true">
+<x-checkout-layout>
     @livewire('checkout')
-</x-guest-layout>
+</x-checkout-layout>
