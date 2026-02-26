@@ -10,24 +10,21 @@ class Cart extends Component
 {
     public $cart = [];
 
-    // Load cart data from database or session on initialization
     public function mount()
     {
         $this->refreshCart();
     }
 
-    // Refresh cart items and calculate totals
     protected function refreshCart()
     {
         if (Auth::check()) {
-            // Pull from DB for authenticated users
             $dbCart = \App\Models\Cart::where('user_id', Auth::id())->with('product.photographer')->get();
             $sessionCart = [];
             foreach ($dbCart as $item) {
                 if ($item->product) {
                     $cartKey = $item->product_id . '-' . \Illuminate\Support\Str::slug($item->size);
 
-                    // START: Calculate variant price
+
                     $variantPrice = $item->product->price;
                     if ($item->size && isset($item->product->options['frames'])) {
                         foreach ($item->product->options['frames'] as $frame) {
@@ -37,7 +34,7 @@ class Cart extends Component
                             }
                         }
                     }
-                    // END: Calculate variant price
+
 
                     $sessionCart[$cartKey] = [
                         "product_id" => $item->product_id,
@@ -57,7 +54,6 @@ class Cart extends Component
         }
     }
 
-    // Increase item quantity by one
     public function increment($id)
     {
         if (isset($this->cart[$id])) {
@@ -67,7 +63,6 @@ class Cart extends Component
         }
     }
 
-    // Decrease item quantity by one
     public function decrement($id)
     {
         if (isset($this->cart[$id])) {
@@ -79,7 +74,6 @@ class Cart extends Component
         }
     }
 
-    // Remove item from cart and database
     public function remove($id)
     {
         if (isset($this->cart[$id])) {
@@ -94,7 +88,6 @@ class Cart extends Component
         }
     }
 
-    // Clear all items from cart
     public function clearCart()
     {
         if (Auth::check()) {
@@ -104,7 +97,6 @@ class Cart extends Component
         session()->forget('cart');
     }
 
-    // Synchronize cart item with database for authenticated users
     protected function syncItemWithDb($id)
     {
         if (Auth::check() && isset($this->cart[$id])) {
@@ -120,7 +112,6 @@ class Cart extends Component
         }
     }
 
-    // Log out user and redirect to gallery
     public function logout()
     {
         Auth::logout();
@@ -129,7 +120,6 @@ class Cart extends Component
         return redirect()->route('gallery');
     }
 
-    // Render the cart view with guest layout
     #[Layout('layouts.guest', ['title' => 'Cart', 'hasFooter' => false, 'fullWidth' => true])]
     public function render()
     {

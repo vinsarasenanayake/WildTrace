@@ -11,17 +11,15 @@ class Index extends Component
 {
 
 
-    // Delete a photographer from the database
     public function delete($id)
     {
         $photographer = Photographer::find($id);
         if ($photographer) {
             $photographer->delete();
-            session()->flash('message', 'Photographer deleted successfully.');
+            $this->dispatch('notify', message: 'Photographer deleted successfully.', type: 'success');
         }
     }
 
-    // Render the list of all photographers
     #[Layout('layouts.admin')]
     public function render()
     {

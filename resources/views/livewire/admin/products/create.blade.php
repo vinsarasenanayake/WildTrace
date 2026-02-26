@@ -3,16 +3,13 @@
 <div class="max-w-4xl mx-auto">
     <div class="bg-white rounded-2xl shadow-sm border border-stone-100 p-8">
         <form wire:submit.prevent="save" class="space-y-8">
-            <!-- Basic Information Section -->
 
-            <!-- Basic Information -->
             <div class="space-y-6">
                 <h3 class="text-sm font-black uppercase tracking-widest text-stone-400 border-b border-stone-100 pb-2">
                     Basic Info</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="col-span-2">
-                        <!-- Product Title Input -->
                         <label
                             class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Title</label>
                         <input type="text" wire:model="title"
@@ -21,7 +18,6 @@
                     </div>
 
                     <div>
-                        <!-- Product Price Input -->
                         <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Price
                             ($)</label>
                         <input type="number" step="0.01" wire:model="price"
@@ -30,7 +26,6 @@
                     </div>
 
                     <div>
-                        <!-- Product Category Selection -->
                         <label
                             class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Category</label>
                         <select wire:model="category"
@@ -49,7 +44,6 @@
                 </div>
 
                 <div>
-                    <!-- Short Description Input -->
                     <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Short
                         Description</label>
                     <textarea wire:model="description" rows="3"
@@ -58,7 +52,6 @@
                 </div>
 
                 <div>
-                    <!-- Long Description Input -->
                     <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Long
                         Description</label>
                     <textarea wire:model="long_description" rows="5"
@@ -67,14 +60,12 @@
                 </div>
             </div>
 
-            <!-- Details & Specs -->
             <div class="space-y-6">
                 <h3 class="text-sm font-black uppercase tracking-widest text-stone-400 border-b border-stone-100 pb-2">
                     Details & Specs</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <!-- Photographer Selection -->
                         <label
                             class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Photographer</label>
                         <select wire:model="photographer_id"
@@ -89,7 +80,6 @@
                     </div>
 
                     <div>
-                        <!-- Location Input -->
                         <label
                             class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Location</label>
                         <input type="text" wire:model="location"
@@ -101,7 +91,6 @@
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                     <div>
-                        <!-- Aperture Technical Spec -->
                         <label
                             class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Aperture</label>
                         <input type="text" wire:model="aperture"
@@ -115,7 +104,6 @@
                             placeholder="400">
                     </div>
                     <div>
-                        <!-- Shutter Speed Technical Spec -->
                         <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Shutter
                             Speed</label>
                         <input type="text" wire:model="shutter_speed"
@@ -123,7 +111,6 @@
                             placeholder="1/2000s">
                     </div>
                     <div>
-                        <!-- Focal Length Technical Spec -->
                         <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Focal
                             Length</label>
                         <input type="text" wire:model="focal_length"
@@ -133,14 +120,12 @@
                 </div>
             </div>
 
-            <!-- Image Path -->
             <div>
                 <h3
                     class="text-sm font-black uppercase tracking-widest text-stone-400 border-b border-stone-100 pb-2 mb-6">
                     Product Image Path</h3>
 
                 @if ($image)
-                    <!-- Image Preview -->
                     <div class="mb-4">
                         <p class="text-[10px] text-stone-400 mb-2">Preview:</p>
                         <img src="{{ asset($image) }}" onerror="this.src='https://placehold.co/400x300'"
@@ -148,7 +133,6 @@
                     </div>
                 @endif
 
-                <!-- Product Image URL Input -->
                 <input type="text" wire:model.live="image"
                     class="w-full bg-stone-50 border border-stone-200 rounded-lg px-4 py-3 text-stone-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                     placeholder="e.g. images/product1.jpg">
@@ -159,7 +143,6 @@
                 <a href="{{ route('admin.products.index') }}"
                     class="text-stone-500 hover:text-stone-700 text-xs font-bold uppercase tracking-wider">Cancel</a>
                 <button type="submit"
-                    <!-- Form Submission Button -->
                     class="bg-green-600 hover:bg-green-500 text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-lg shadow-lg shadow-green-600/20 transition-all flex items-center gap-2">
                     <span wire:loading.remove>Save Product</span>
                     <span wire:loading>Saving...</span>

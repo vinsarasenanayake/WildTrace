@@ -1,7 +1,6 @@
 @section('header', 'Users')
 
 <div class="space-y-6">
-    <!-- User Management List Section -->
     <div class="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
         <table class="w-full text-left text-sm text-stone-600">
             <thead class="bg-stone-50 text-xs uppercase font-bold text-stone-500">
@@ -34,7 +33,6 @@
                         </td>
                         <td class="px-6 py-4 text-xs">{{ $user->created_at->format('M d, Y') }}</td>
                         <td class="px-6 py-4 text-right space-x-2">
-                            <!-- <a href="#" class="text-stone-400 hover:text-green-600 transition-colors font-bold text-xs uppercase">Edit</a> -->
                             @if($user->id !== auth()->id())
                                 <button wire:click="delete({{ $user->id }})" wire:confirm="Are you sure?"
                                     class="text-red-500 hover:text-red-600 transition-colors font-bold text-xs uppercase">Delete</button>
@@ -44,7 +42,6 @@
                 @endforeach
             </tbody>
         </table>
-        <!-- User List Pagination Section -->
         <div class="p-6 border-t border-stone-100">
             {{ $users->links() }}
         </div>

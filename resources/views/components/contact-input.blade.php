@@ -1,16 +1,10 @@
 @props(['dialCode' => '+94', 'value' => ''])
 
 @php
-    // Fetch all countries for dial code selection
     $countries = \App\Helpers\CountryHelper::getAll();
     $dialCodeName = $attributes->get('dial-code-name', 'dial_code');
 @endphp
 
-<!--
-    Contact Input Component
-    Integrates a country dial code selector with a masked phone number input.
-    Features: Reactive z-index stacking to prevent UI overlapping.
--->
 <div x-data="{ 
     open: false, 
     selected: '{{ $dialCode }}'
@@ -19,7 +13,6 @@
 
 
 
-    <!-- Dial Code Dropdown Selector -->
     <div class="relative flex-shrink-0">
         <button type="button" @click="open = !open" @click.away="open = false"
             class="h-full px-5 flex items-center gap-3 bg-stone-50/50 hover:bg-stone-100 transition-colors text-stone-800 text-[13px] font-black select-none focus:outline-none min-w-[100px] justify-between border-r border-stone-100 rounded-l-2xl">
@@ -33,7 +26,6 @@
 
         <input type="hidden" name="{{ $dialCodeName }}" x-model="selected">
 
-        <!-- Dropdown Menu -->
         <div x-show="open" x-transition:enter="transition ease-out duration-200"
             x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
             class="absolute z-[70] w-80 mt-2 bg-white border border-stone-200 rounded-2xl shadow-2xl max-h-40 overflow-y-auto"
@@ -50,7 +42,6 @@
         </div>
     </div>
 
-    <!-- Phone Number Input -->
     <input {{ $attributes->merge(['class' => 'w-full px-5 py-4 bg-transparent border-none outline-none focus:ring-0 text-stone-800 text-[13px] font-medium placeholder-stone-300 rounded-r-2xl']) }} maxlength="9"
         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9)">
 </div>

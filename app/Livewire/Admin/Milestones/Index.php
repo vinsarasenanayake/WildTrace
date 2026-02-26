@@ -11,14 +11,12 @@ class Index extends Component
 {
     use WithPagination;
 
-    // Remove a milestone from the database
     public function delete($id)
     {
         Milestone::find($id)->delete();
-        session()->flash('message', 'Milestone deleted successfully.');
+        $this->dispatch('notify', message: 'Milestone deleted successfully.', type: 'success');
     }
 
-    // Render the list of milestones with pagination
     #[Layout('layouts.admin')]
     public function render()
     {

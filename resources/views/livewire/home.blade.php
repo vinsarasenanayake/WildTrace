@@ -1,35 +1,28 @@
 <div
     class="min-h-screen bg-stone-50 font-sans text-stone-800 selection:bg-green-600 selection:text-white relative overflow-x-hidden">
 
-    <!-- Background element to show off the glass effect -->
     <div class="absolute inset-0 z-0 pointer-events-none">
-        <!-- Subtle green glow to complement the navbar -->
         <div
             class="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-green-600/5 rounded-full blur-[150px]">
         </div>
     </div>
 
-    <!-- NAVBAR -->
-    <nav class="fixed top-6 left-0 right-0 z-50 mx-auto w-[95%]">
+    <nav class="fixed top-8 left-0 right-0 z-50 mx-auto w-[90%] max-w-5xl">
         <div
             class="flex items-center justify-between relative px-8 py-2 rounded-2xl bg-green-900/80 backdrop-blur-md border border-green-500/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] transition-all duration-300 hover:bg-green-900/90 hover:border-green-500/30">
 
-            <!-- LEFT: LOGO (Smaller) -->
             <a href="/" class="flex items-center gap-3 group">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo"
                     class="w-10 h-10 object-contain opacity-90 group-hover:opacity-100 transition-opacity">
             </a>
 
-            <!-- CENTER: TABS -->
-            <div class="hidden md:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
-                <!-- Home (Active) -->
+            <div class="hidden md:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
                 <a href="#" class="text-xs font-black uppercase tracking-[0.2em] text-gray-300 cursor-default relative">
                     Home
                     <span
                         class="absolute -bottom-1 left-1/2 w-full h-0.5 bg-green-400 -translate-x-1/2 shadow-[0_0_8px_rgba(74,222,128,0.5)]"></span>
                 </a>
 
-                <!-- Journey (Inactive) -->
                 <a href="{{ url('/journey') }}"
                     class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-green-400 transition-colors relative group">
                     Journey
@@ -37,7 +30,6 @@
                         class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-green-400 group-hover:w-full transition-all duration-300 -translate-x-1/2"></span>
                 </a>
 
-                <!-- Gallery (Inactive) -->
                 <a href="{{ url('/gallery') }}"
                     class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-green-400 transition-colors relative group">
                     Gallery
@@ -46,10 +38,8 @@
                 </a>
             </div>
 
-            <!-- RIGHT: ICONS -->
-            <div class="flex items-center gap-6 text-white">
+            <div class="flex items-center gap-4 text-white">
                 @auth
-                    <!-- Cart -->
                     <a href="{{ url('/cart') }}"
                         class="hover:text-green-400 transition-colors transform hover:scale-110 duration-200 p-2 hover:bg-white/5 rounded-full relative">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -69,22 +59,22 @@
                         @endif
                     </a>
 
-                    <!-- Profile Link (Dashboard) -->
                     <a href="{{ url('/dashboard') }}" class="relative group focus:outline-none" title="Dashboard">
                         <img src="{{ Auth::user()->profile_photo_url }}"
                             class="w-8 h-8 rounded-full border-2 border-green-500/30 hover:border-green-400 transition-all">
-                        <!-- Online Indicator -->
-                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-green-900 rounded-full"></span>
+                        <span
+                            class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-green-900 rounded-full"></span>
                     </a>
 
-                    <!-- Logout Button -->
                     <form method="POST" action="{{ route('logout') }}" class="inline-flex">
                         @csrf
-                        <button type="submit" 
-                            class="hover:text-red-500 transition-colors transform hover:scale-110 duration-200 p-2 hover:bg-white/5 rounded-full" 
+                        <button type="submit"
+                            class="hover:text-red-500 transition-colors transform hover:scale-110 duration-200 p-2 hover:bg-white/5 rounded-full"
                             title="Logout">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
                             </svg>
                         </button>
                     </form>
@@ -96,34 +86,37 @@
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <section class="relative w-full h-screen overflow-hidden">
-        <!-- Background Image Slider -->
+    <section class="relative w-full h-screen overflow-hidden" x-data="{ 
+            activeSlide: 0,
+            slides: [0, 1, 2],
+            next() { this.activeSlide = (this.activeSlide + 1) % this.slides.length },
+            init() { setInterval(() => this.next(), 5000) }
+        }">
         <div id="hero-slider" class="absolute inset-0 overflow-hidden">
-            <!-- Slide 1 (Active by default) -->
-            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out hero-slide opacity-100">
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out hero-slide"
+                x-show="activeSlide === 0" x-transition:enter="opacity-0" x-transition:enter-end="opacity-100"
+                x-transition:leave="opacity-100" x-transition:leave-end="opacity-0">
                 <img src="{{ asset('images/heroimageh1.jpg') }}" alt="Leopard"
                     class="w-full h-full object-cover object-center scale-105 animate-slow-zoom">
             </div>
-            <!-- Slide 2 -->
-            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out hero-slide opacity-0">
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out hero-slide"
+                x-show="activeSlide === 1" x-transition:enter="opacity-0" x-transition:enter-end="opacity-100"
+                x-transition:leave="opacity-100" x-transition:leave-end="opacity-0" style="display: none;">
                 <img src="{{ asset('images/heroimageh2.jpg') }}" alt="Elephants"
                     class="w-full h-full object-cover object-center scale-105 animate-slow-zoom">
             </div>
-            <!-- Slide 3 -->
-            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out hero-slide opacity-0">
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out hero-slide"
+                x-show="activeSlide === 2" x-transition:enter="opacity-0" x-transition:enter-end="opacity-100"
+                x-transition:leave="opacity-100" x-transition:leave-end="opacity-0" style="display: none;">
                 <img src="{{ asset('images/heroimageh3.jpg') }}" alt="Owl"
                     class="w-full h-full object-cover object-center scale-105 animate-slow-zoom">
             </div>
 
-            <!-- Dark Overlay -->
             <div class="absolute inset-0 bg-black/40 z-10"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/30 z-10"></div>
         </div>
 
-        <!-- Content -->
         <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pt-32">
-            <!-- Badge -->
             <div
                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest mb-8">
                 <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
@@ -151,7 +144,6 @@
                 </a>
             </div>
 
-            <!-- Scroll Indicator -->
             <div class="flex flex-col items-center gap-3 animate-bounce opacity-90">
                 <span class="text-[10px] font-bold tracking-[0.3em] text-white uppercase opacity-80">Scroll to
                     Explore</span>
@@ -163,7 +155,6 @@
         </div>
     </section>
 
-    <!-- FEATURED WORK (INFINITE SCROLL) -->
     <section class="relative py-24 bg-stone-50 overflow-hidden">
         <div
             class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-green-200/20 rounded-full blur-[120px] pointer-events-none">
@@ -197,13 +188,11 @@
                         x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
                         class="absolute inset-0 w-full h-full">
 
-                        <!-- Main Link -->
                         <a :href="'/product/' + slide.id" class="absolute inset-0 z-20"></a>
 
                         <img :src="slide.img" :alt="slide.title"
                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
 
-                        <!-- Dark Overlay - Only on Hover -->
                         <div
                             class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10">
                         </div>
@@ -211,7 +200,6 @@
                             class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10">
                         </div>
 
-                        <!-- Content - Only on Hover -->
                         <div
                             class="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-left opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 z-20 pointer-events-none">
                             <div class="flex items-center gap-2 mb-3">
@@ -259,7 +247,6 @@
         </div>
     </section>
 
-    <!-- TRUST & STORY -->
     <section class="relative py-16 bg-stone-900 text-stone-300 overflow-hidden text-center">
         <div class="relative container mx-auto px-6 max-w-4xl">
             <div class="flex flex-col items-center">
@@ -322,18 +309,20 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="bg-stone-950 pt-20 pb-10 text-stone-400 border-t border-white/5 relative z-10 font-sans">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-                
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
+
                 <div class="flex flex-col items-center text-center space-y-4">
                     <a href="/" class="flex flex-col items-center gap-4 group">
-                        <img src="{{ asset('images/logo.png') }}" alt="WildTrace Logo" class="w-16 h-16 object-contain opacity-90 group-hover:opacity-100 transition-opacity">
-                        <span class="text-2xl font-black tracking-tighter text-white group-hover:text-green-500 transition-colors">WILDTRACE</span>
+                        <img src="{{ asset('images/logo.png') }}" alt="WildTrace Logo"
+                            class="w-16 h-16 object-contain opacity-90 group-hover:opacity-100 transition-opacity">
+                        <span
+                            class="text-2xl font-black tracking-tighter text-white group-hover:text-green-500 transition-colors">WILDTRACE</span>
                     </a>
                     <p class="text-sm leading-relaxed text-stone-500 max-w-xs">
-                        Connecting you with the untamed beauty of nature through ethical, fine-art wildlife photography. Every print tells a story of survival and grace.
+                        Connecting you with the untamed beauty of nature through ethical, fine-art wildlife photography.
+                        Every print tells a story of survival and grace.
                     </p>
                 </div>
 
@@ -341,12 +330,16 @@
                     <h4 class="text-white font-bold uppercase tracking-widest text-xs mb-8 text-center">Quick Links</h4>
                     <ul class="space-y-4 text-sm text-center">
                         <li><a href="/" class="hover:text-green-400 transition-colors duration-200 block">Home</a></li>
-                        <li><a href="{{ url('/journey') }}" class="hover:text-green-400 transition-colors duration-200 block">Journey</a></li>
-                        <li><a href="{{ url('/gallery') }}" class="hover:text-green-400 transition-colors duration-200 block">Gallery</a></li>
+                        <li><a href="{{ url('/journey') }}"
+                                class="hover:text-green-400 transition-colors duration-200 block">Journey</a></li>
+                        <li><a href="{{ url('/gallery') }}"
+                                class="hover:text-green-400 transition-colors duration-200 block">Gallery</a></li>
                         @auth
-                            <li><a href="{{ url('/dashboard') }}" class="hover:text-green-400 transition-colors duration-200 block">Dashboard</a></li>
+                            <li><a href="{{ url('/dashboard') }}"
+                                    class="hover:text-green-400 transition-colors duration-200 block">Dashboard</a></li>
                         @else
-                            <li><a href="{{ route('login') }}" class="hover:text-green-400 transition-colors duration-200 block">Login</a></li>
+                            <li><a href="{{ route('login') }}"
+                                    class="hover:text-green-400 transition-colors duration-200 block">Login</a></li>
                         @endauth
                     </ul>
                 </div>
@@ -354,52 +347,41 @@
                 <div class="flex flex-col items-center">
                     <h4 class="text-white font-bold uppercase tracking-widest text-xs mb-8 text-center">Connect</h4>
                     <div class="flex gap-4 mb-8 justify-center">
-                        <a href="https://www.instagram.com/wild_trace/" target="_blank" class="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-300 group">
-                            <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.66 0 3 1.34 3 3v10c0 1.66-1.34 3-3 3H7c-1.66 0-3-1.34-3-3V7c0-1.66 1.34-3 3-3h10zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm5.5-1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" clip-rule="evenodd"/>
+                        <a href="https://www.instagram.com/wild_trace/" target="_blank"
+                            class="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-300 group">
+                            <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor"
+                                viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.66 0 3 1.34 3 3v10c0 1.66-1.34 3-3 3H7c-1.66 0-3-1.34-3-3V7c0-1.66 1.34-3 3-3h10zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm5.5-1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
+                                    clip-rule="evenodd" />
                             </svg>
                         </a>
-                        <a href="https://www.facebook.com/wildtrace2020/" target="_blank" class="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-300 group">
-                            <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                        <a href="https://www.facebook.com/wildtrace2020/" target="_blank"
+                            class="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-300 group">
+                            <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor"
+                                viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                                    clip-rule="evenodd" />
+                            </svg>
                         </a>
-                        <!-- YouTube -->
-                        <a href="https://www.youtube.com/channel/UCUe_TYghZplD2Ckv-0wplqA/videos" target="_blank" class="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-300 group">
-                            <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 01-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 01-1.768-1.768C2 15.255 2 12 2 12s0-3.255.418-4.814a2.507 2.507 0 011.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418zM15.194 12 10 15V9l5.194 3z" clip-rule="evenodd" /></svg>
+                        <a href="https://www.youtube.com/channel/UCUe_TYghZplD2Ckv-0wplqA/videos" target="_blank"
+                            class="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-300 group">
+                            <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor"
+                                viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 01-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 01-1.768-1.768C2 15.255 2 12 2 12s0-3.255.418-4.814a2.507 2.507 0 011.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418zM15.194 12 10 15V9l5.194 3z"
+                                    clip-rule="evenodd" />
+                            </svg>
                         </a>
                     </div>
                 </div>
 
-                <!-- Newsletter -->
-                <div class="space-y-6">
-                    <h4 class="text-white font-bold uppercase tracking-widest text-xs">Join the Pride</h4>
-                    <p class="text-xs text-stone-500">Subscribe for early access to new releases and conservation news.</p>
-                    
-                    <form wire:submit.prevent="subscribe" class="flex flex-col gap-3">
-                        <div class="w-full">
-                            <input type="email" wire:model="email" placeholder="Your email address" 
-                                class="w-full h-12 bg-stone-900 border border-stone-800 rounded-lg px-4 text-sm text-white placeholder-stone-600 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all">
-                            @error('email') <span class="text-red-500 text-[10px] mt-1 block">{{ $message }}</span> @enderror
-                        </div>
-                        
-                        <!-- Updated Button Color to match Login Button (green-600 hover:green-500 shadow style) -->
-                        <button type="submit" class="w-full h-12 bg-green-600 hover:bg-green-500 text-white rounded-lg px-4 text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-[0_4px_12px_rgba(74,222,128,0.2)] hover:shadow-[0_4px_20px_rgba(74,222,128,0.4)] flex items-center justify-center gap-2 group">
-                            <span wire:loading.remove wire:target="subscribe">SUBSCRIBE</span>
-                            <span wire:loading wire:target="subscribe" class="animate-pulse">SUBSCRIBING...</span>
-                        </button>
-
-                        @if (session()->has('newsletter_success'))
-                            <div class="mt-2 text-green-400 text-[11px] font-bold flex items-center gap-2 animate-pulse">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
-                                {{ session('newsletter_success') }}
-                            </div>
-                        @endif
-                    </form>
-                </div>
             </div>
 
-            <!-- Copyright - Adjusted padding to be moderate -->
             <div class="border-t border-white/5 pt-8 pb-12 flex items-center justify-center">
-                <p class="text-[10px] font-medium text-stone-600 text-center">Copyright &copy; 2026 <span class="text-stone-400">WILDTRACE</span>. All Rights Reserved.</p>
+                <p class="text-[10px] font-medium text-stone-600 text-center">Copyright &copy; 2026 <span
+                        class="text-stone-400">WILDTRACE</span>. All Rights Reserved.</p>
             </div>
         </div>
     </footer>

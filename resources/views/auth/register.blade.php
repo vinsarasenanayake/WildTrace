@@ -1,4 +1,3 @@
-<x-guest-layout title="Register">
-    <!-- Livewire Component for Registration Logic -->
+<x-guest-layout title="Register" :lightBg="true">
     <livewire:register-form />
 </x-guest-layout>

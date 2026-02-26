@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
     use HasFactory;
 
-    // Fillable attributes
     protected $fillable = [
         'title',
         'description',
@@ -26,19 +26,15 @@ class Product extends Model
         'options',
     ];
 
-    // Attribute casting
     protected $casts = [
         'options' => 'array',
     ];
 
-    // Appended attributes
     protected $appends = ['is_favorite'];
 
-    // Favorite status accessor
     public function getIsFavoriteAttribute()
     {
-        // Try web auth first, then sanctum for API
-        $user = auth()->user() ?? auth('sanctum')->user();
+        $user = Auth::user() ?? Auth::guard('sanctum')->user();
         if (!$user)
             return false;
 
@@ -47,7 +43,6 @@ class Product extends Model
             ->exists();
     }
 
-    // Photographer relationship
     public function photographer()
     {
         return $this->belongsTo(Photographer::class);

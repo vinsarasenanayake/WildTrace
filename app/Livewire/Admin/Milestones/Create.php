@@ -13,12 +13,11 @@ class Create extends Component
     public $description;
 
     protected $rules = [
-        'year' => 'required|string|max:4', // simple year validation
+        'year' => 'required|string|max:4',
         'title' => 'required|string|max:255',
         'description' => 'required|string',
     ];
 
-    // Save a new milestone to the database
     public function save()
     {
         $this->validate();
@@ -32,7 +31,6 @@ class Create extends Component
         return redirect()->route('admin.milestones.index')->with('message', 'Milestone created successfully.');
     }
 
-    // Render the create milestone form view
     #[Layout('layouts.admin')]
     public function render()
     {

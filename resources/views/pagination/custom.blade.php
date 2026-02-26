@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <div class="flex flex-col items-center gap-4">
+    <div class="flex flex-col items-center gap-8">
         <nav role="navigation" aria-label="{{ __('Pagination Navigation') }}"
             class="flex items-center justify-center gap-2">
             {{-- Previous Page Link --}}
@@ -64,7 +64,7 @@
             @endif
         </nav>
 
-        <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest mt-1">
+        <p class="text-[9px] font-black text-stone-400 uppercase tracking-[0.3em]">
             Showing {{ $paginator->count() }} out of {{ $paginator->total() }} Products
         </p>
     </div>

@@ -8,13 +8,11 @@ use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
-    // Register services
     public function register(): void
     {
 
     }
 
-    // Bootstrap services
     public function boot(): void
     {
         Schema::defaultStringLength(191);

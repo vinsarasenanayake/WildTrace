@@ -21,14 +21,12 @@
     </style>
 </head>
 
-<body class="font-sans antialiased bg-stone-100">
+<body class="font-sans antialiased bg-stone-900 overscroll-none overflow-x-hidden">
     <div class="min-h-screen flex flex-col">
-        <!-- Top Navigation Bar -->
         <nav class="bg-stone-900 border-b border-stone-800 text-white z-50 sticky top-0">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-20">
 
-                    <!-- Left: Logo & Brand -->
                     <div class="flex items-center gap-4">
                         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 group">
                             <img src="{{ asset('images/logo.png') }}"
@@ -41,7 +39,6 @@
                             </div>
                         </a>
 
-                        <!-- Navigation Links -->
                         <div class="hidden md:flex ml-10 gap-4">
                             <a href="{{ route('admin.photographers.index') }}"
                                 class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors {{ request()->routeIs('admin.photographers.*') ? 'bg-stone-800 text-green-500' : 'text-stone-400 hover:text-white hover:bg-stone-800' }}">
@@ -50,10 +47,6 @@
                             <a href="{{ route('admin.users.index') }}"
                                 class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors {{ request()->routeIs('admin.users.*') ? 'bg-stone-800 text-green-500' : 'text-stone-400 hover:text-white hover:bg-stone-800' }}">
                                 Users
-                            </a>
-                            <a href="{{ route('admin.subscribers.index') }}"
-                                class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors {{ request()->routeIs('admin.subscribers.*') ? 'bg-stone-800 text-green-500' : 'text-stone-400 hover:text-white hover:bg-stone-800' }}">
-                                Subscribers
                             </a>
                             <a href="{{ route('admin.orders.index') }}"
                                 class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors {{ request()->routeIs('admin.orders.*') ? 'bg-stone-800 text-green-500' : 'text-stone-400 hover:text-white hover:bg-stone-800' }}">
@@ -70,7 +63,6 @@
                         </div>
                     </div>
 
-                    <!-- Right: User Profile -->
                     <div class="flex items-center gap-6">
                         <div class="flex items-center gap-3">
                             <div class="text-right hidden sm:block">
@@ -82,7 +74,6 @@
                                 src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                         </div>
 
-                        <!-- Logout -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="p-2 text-stone-400 hover:text-red-400 transition-colors"
@@ -99,8 +90,7 @@
             </div>
         </nav>
 
-        <!-- Main Content -->
-        <main class="flex-1 max-w-7xl w-full mx-auto p-8 lg:p-12">
+        <main class="flex-1 max-w-6xl w-full mx-auto p-6 lg:p-10">
             <header class="flex items-center justify-between mb-12">
                 <div>
                     <h1 class="text-3xl font-black text-stone-900 tracking-tight uppercase">
@@ -124,6 +114,7 @@
     </div>
 
     @livewireScripts
+    <x-notification-toast />
 </body>
 
 </html>

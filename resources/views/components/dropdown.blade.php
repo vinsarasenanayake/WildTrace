@@ -1,7 +1,6 @@
 @props(['align' => 'right', 'alignment' => null, 'width' => '48', 'contentClasses' => 'py-1 bg-white', 'dropdownClasses' => ''])
 
 @php
-    // Support both 'align' (deprecated) and 'alignment' (new) for backward compatibility
     $alignValue = $alignment ?? $align;
 
     $alignmentClasses = match ($alignValue) {

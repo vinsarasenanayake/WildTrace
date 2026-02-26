@@ -7,6 +7,7 @@ use App\Models\Product;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class ProductShow extends Component
 {
@@ -22,12 +23,11 @@ class ProductShow extends Component
     public $relatedArtifacts = [];
     public $quantity = 1;
 
-    // Login Properties
+
     public $loginEmail = '';
     public $loginPassword = '';
     public $showPassword = false;
 
-    // Process inline authentication requests
     public function performLogin()
     {
         $this->validate([
@@ -35,7 +35,7 @@ class ProductShow extends Component
             'loginPassword' => 'required',
         ]);
 
-        if (auth()->validate(['email' => $this->loginEmail, 'password' => $this->loginPassword])) {
+        if (Auth::validate(['email' => $this->loginEmail, 'password' => $this->loginPassword])) {
             $user = \App\Models\User::where('email', $this->loginEmail)->first();
 
             if ($user->is_admin) {
@@ -43,7 +43,7 @@ class ProductShow extends Component
                 return;
             }
 
-            auth()->login($user);
+            Auth::login($user);
             session()->regenerate();
             return redirect()->to(request()->header('Referer'));
         } else {
@@ -58,16 +58,13 @@ class ProductShow extends Component
         $this->resetValidation();
     }
 
-    // Initialize component with product details and related artifacts
     public function mount($id)
     {
         $this->product = Product::with('photographer')->findOrFail($id);
 
         $defaultOption = $this->product->options['frames'][0] ?? ['size' => 'Default', 'price' => $this->product->price];
 
-        // Size Persistence Logic
         if ($this->selectedSize) {
-            // Validate if selectedSize passed in URL actually exists for this product
             $foundOption = null;
             foreach ($this->product->options['frames'] ?? [] as $option) {
                 if ($option['size'] === $this->selectedSize) {
@@ -78,7 +75,6 @@ class ProductShow extends Component
             if ($foundOption) {
                 $this->currentPrice = $foundOption['price'];
             } else {
-                // Fallback if URL param is invalid
                 $this->selectedSize = $defaultOption['size'];
                 $this->currentPrice = $defaultOption['price'];
             }
@@ -87,26 +83,23 @@ class ProductShow extends Component
             $this->currentPrice = $defaultOption['price'];
         }
 
-        // Check if favorite
-        if (auth()->check()) {
-            $this->isFavorite = \App\Models\Favorite::where('user_id', auth()->id())
+        if (Auth::check()) {
+            $this->isFavorite = \App\Models\Favorite::where('user_id', Auth::id())
                 ->where('product_id', $this->product->id)
                 ->exists();
         }
 
-        // Fetch related artifacts (any 3 random products except current)
         $this->relatedArtifacts = Product::where('id', '!=', $this->product->id)
             ->inRandomOrder()
             ->take(3)
             ->get();
     }
 
-    // Handle size variant selection
     public function selectSize($size, $price)
     {
         $this->selectedSize = $size;
         $this->currentPrice = $price;
-        $this->quantity = 1; // Reset quantity
+        $this->quantity = 1;
     }
 
     public function incrementQuantity()
@@ -121,15 +114,14 @@ class ProductShow extends Component
         }
     }
 
-    // Toggle the product's presence in user's favorites
     public function toggleFavorite()
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             $this->showLoginModal = true;
             return;
         }
 
-        $fav = \App\Models\Favorite::where('user_id', auth()->id())
+        $fav = \App\Models\Favorite::where('user_id', Auth::id())
             ->where('product_id', $this->product->id)
             ->first();
 
@@ -138,17 +130,16 @@ class ProductShow extends Component
             $this->isFavorite = false;
         } else {
             \App\Models\Favorite::create([
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'product_id' => $this->product->id
             ]);
             $this->isFavorite = true;
         }
     }
 
-    // Add selected variant to the shopping cart
     public function addToCart()
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             $this->showLoginModal = true;
             return;
         }
@@ -156,14 +147,13 @@ class ProductShow extends Component
         $id = $this->product->id;
         $cart = session()->get('cart', []);
 
-        // Create unique key using ID and Size
         $cartKey = $id . '-' . Str::slug($this->selectedSize);
 
         if (isset($cart[$cartKey])) {
             $cart[$cartKey]['quantity'] += $this->quantity;
         } else {
             $cart[$cartKey] = [
-                "product_id" => $id, // keeping reference to original ID if needed
+                "product_id" => $id,
                 "title" => $this->product->title . ' (' . $this->selectedSize . ')',
                 "quantity" => $this->quantity,
                 "price" => $this->currentPrice,
@@ -175,10 +165,9 @@ class ProductShow extends Component
 
         session()->put('cart', $cart);
 
-        // SYNC WITH DATABASE FOR MOBILE APP
-        if (auth()->check()) {
+        if (Auth::check()) {
             $dbCart = \App\Models\Cart::firstOrNew([
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'product_id' => $id,
                 'size' => $this->selectedSize,
             ]);
@@ -186,13 +175,11 @@ class ProductShow extends Component
             $dbCart->save();
         }
 
-        // Dispatch event for Navbar cart count update
         $this->dispatch('cartUpdated');
 
-        return redirect()->route('cart.index')->with('success', 'Product added to cart successfully!');
+        return redirect()->route('cart.index')->with('success', 'Masterpiece added to your collection! Ready to proceed?');
     }
 
-    // Display the detailed product information view
     #[Layout('layouts.guest', ['title' => 'Product Details', 'hasFooter' => false, 'fullWidth' => true])]
     public function render()
     {

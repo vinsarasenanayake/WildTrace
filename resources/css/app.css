@@ -5,3 +5,12 @@
 [x-cloak] {
     display: none;
 }
+
+html {
+    overscroll-behavior-y: none;
+}
+
+body {
+    min-height: 100%;
+    overflow-x: hidden;
+}

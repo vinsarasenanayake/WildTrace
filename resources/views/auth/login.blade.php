@@ -1,4 +1,3 @@
-<x-guest-layout title="Login">
-    <!-- Livewire Component for Login Logic -->
+<x-guest-layout title="Login" :lightBg="true">
     <livewire:login-form />
 </x-guest-layout>

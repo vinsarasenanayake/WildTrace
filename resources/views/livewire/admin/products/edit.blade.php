@@ -3,9 +3,7 @@
 <div class="max-w-4xl mx-auto">
     <div class="bg-white rounded-2xl shadow-sm border border-stone-100 p-8">
         <form wire:submit.prevent="save" class="space-y-8">
-            <!-- Basic Information Section -->
 
-            <!-- Basic Information -->
             <div class="space-y-6">
                 <h3 class="text-sm font-black uppercase tracking-widest text-stone-400 border-b border-stone-100 pb-2">
                     Basic Info</h3>
@@ -62,7 +60,6 @@
                 </div>
             </div>
 
-            <!-- Details & Technical Specs Section -->
             <div class="space-y-6">
                 <h3 class="text-sm font-black uppercase tracking-widest text-stone-400 border-b border-stone-100 pb-2">
                     Details & Specs</h3>
@@ -123,8 +120,6 @@
                 </div>
             </div>
 
-            <!-- Image -->
-            <!-- Product Image Path Section -->
             <div>
                 <h3
                     class="text-sm font-black uppercase tracking-widest text-stone-400 border-b border-stone-100 pb-2 mb-6">
@@ -147,8 +142,7 @@
             <div class="pt-4 flex items-center justify-end gap-4 border-t border-stone-100 mt-8">
                 <a href="{{ route('admin.products.index') }}"
                     class="text-stone-500 hover:text-stone-700 text-xs font-bold uppercase tracking-wider">Cancel</a>
-                <button type="submit" <!-- Form Submission Button -->
-                    class="bg-green-600 hover:bg-green-500 text-white text-xs font-bold uppercase tracking-wider px-6
+                <button type="submit" class="bg-green-600 hover:bg-green-500 text-white text-xs font-bold uppercase tracking-wider px-6
                     py-3 rounded-lg shadow-lg shadow-green-600/20 transition-all flex items-center gap-2">
                     <span wire:loading.remove>Update Product</span>
                     <span wire:loading>Updating...</span>

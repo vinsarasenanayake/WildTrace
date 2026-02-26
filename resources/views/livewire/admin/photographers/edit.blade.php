@@ -3,9 +3,7 @@
 <div class="max-w-3xl mx-auto">
     <div class="bg-white rounded-2xl shadow-sm border border-stone-100 p-8">
         <form wire:submit.prevent="save" class="space-y-6">
-            <!-- Photographer Data Update Form Section -->
 
-            <!-- Name -->
             <div>
                 <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Name</label>
                 <input type="text" wire:model="name"
@@ -14,7 +12,6 @@
                 @error('name') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Profession -->
             <div>
                 <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Profession</label>
                 <input type="text" wire:model="profession"
@@ -23,7 +20,6 @@
                 @error('profession') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Achievement -->
             <div>
                 <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Achievement</label>
                 <input type="text" wire:model="achievement"
@@ -32,7 +28,6 @@
                 @error('achievement') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Quote -->
             <div>
                 <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Quote</label>
                 <textarea wire:model="quote" rows="3"
@@ -41,7 +36,6 @@
                 @error('quote') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Post -->
             <div>
                 <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Post</label>
                 <input type="text" wire:model="post"
@@ -50,22 +44,29 @@
                 @error('post') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Photographer Profile Image Update Section -->
             <div>
-                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Image Path</label>
-
-                @if ($image)
-                    <div class="mb-4">
-                        <p class="text-[10px] text-stone-400 mb-2">Preview:</p>
+                <label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Profile
+                    Image</label>
+                @if ($image && !$photo)
+                    <div class="mb-3">
+                        <p class="text-[10px] text-stone-400 mb-2 uppercase tracking-widest font-bold">Current Image</p>
                         <img src="{{ asset($image) }}" onerror="this.src='https://placehold.co/100'"
                             class="w-20 h-20 rounded-full object-cover border-2 border-stone-200">
                     </div>
                 @endif
-
-                <input type="text" wire:model.live="image"
-                    class="w-full bg-stone-50 border border-stone-200 rounded-lg px-4 py-3 text-stone-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    placeholder="e.g. images/teammember1.jpg">
-                @error('image') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                <input type="file" wire:model="photo" accept="image/*"
+                    class="w-full bg-stone-50 border border-stone-200 rounded-lg px-4 py-3 text-stone-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:uppercase file:bg-stone-900 file:text-white hover:file:bg-stone-700">
+                <div wire:loading wire:target="photo" class="text-xs text-stone-400 mt-1">Uploading...</div>
+                @if ($photo)
+                    <div class="mt-3">
+                        <p class="text-[10px] text-stone-400 mb-2 uppercase tracking-widest font-bold">New Preview</p>
+                        <img src="{{ $photo->temporaryUrl() }}"
+                            class="w-20 h-20 rounded-full object-cover border-2 border-green-300">
+                    </div>
+                @endif
+                @error('photo') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                <p class="text-[10px] text-stone-400 mt-1">Leave empty to keep the current image. Accepted: JPG, PNG,
+                    WEBP.</p>
             </div>
 
             <div class="pt-4 flex items-center justify-end gap-4">

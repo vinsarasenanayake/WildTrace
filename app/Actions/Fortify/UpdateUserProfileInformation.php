@@ -10,10 +10,8 @@ use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
-    // Validate and update the given user's profile information
     public function update(User $user, array $input): void
     {
-        // Validate profile updates with global support for address and contact fields
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
@@ -29,14 +27,13 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user->updateProfilePhoto($input['photo']);
         }
 
-        // Handle email verification logic if the email address changes
+
         if (
             $input['email'] !== $user->email &&
             $user instanceof MustVerifyEmail
         ) {
             $this->updateVerifiedUser($user, $input);
         } else {
-            // Force fill user data with dynamic location data
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],
@@ -49,10 +46,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         }
     }
 
-    // Update the given verified user's profile information
     protected function updateVerifiedUser(User $user, array $input): void
     {
-        // Update user data while resetting email verification status
         $user->forceFill([
             'name' => $input['name'],
             'email' => $input['email'],

@@ -9,13 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    // List Products
     public function index(Request $request)
     {
         return response()->json(['data' => Product::with('photographer')->get()]);
     }
 
-    // Create Product
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -32,7 +30,6 @@ class ProductController extends Controller
         return response()->json($product, 201);
     }
 
-    // Show Product
     public function show(string $id)
     {
         $product = Product::with('photographer')->find($id);
@@ -44,7 +41,6 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    // Update Product
     public function update(Request $request, string $id)
     {
         $product = Product::find($id);
@@ -67,7 +63,6 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    // Delete Product
     public function destroy(string $id)
     {
         $product = Product::find($id);
@@ -81,7 +76,6 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product deleted successfully']);
     }
 
-    // Get Price
     public function getPrice(Request $request, string $id)
     {
         $product = Product::find($id);

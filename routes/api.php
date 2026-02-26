@@ -9,11 +9,9 @@ use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\FavoriteController;
 
 
-// Auth Routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
-// Public Routes
 Route::get('/photographers', [App\Http\Controllers\Api\PhotographerController::class, 'index']);
 Route::get('/photographers/{id}', [App\Http\Controllers\Api\PhotographerController::class, 'show']);
 Route::get('/milestones', [App\Http\Controllers\Api\MilestoneController::class, 'index']);
@@ -23,7 +21,6 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::get('/products/{id}/price', [ProductController::class, 'getPrice']);
 
 
-// Protected Routes
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/user', [AuthController::class, 'profile']);

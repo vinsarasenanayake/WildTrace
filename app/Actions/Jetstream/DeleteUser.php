@@ -7,10 +7,17 @@ use Laravel\Jetstream\Contracts\DeletesUsers;
 
 class DeleteUser implements DeletesUsers
 {
-    // Delete the given user and handle associated data
     public function delete(User $user): void
     {
-        // Nullify user_id in orders to keep order history while allowing user deletion
+        $hasActiveOrders = $user->orders()
+            ->whereIn('status', ['confirmed', 'paid', 'delivered'])
+            ->where('created_at', '>', now()->subDays(5))
+            ->exists();
+
+        if ($hasActiveOrders) {
+            throw new \Exception('Account cannot be deleted while orders are still within the estimated delivery window.');
+        }
+
         $user->orders()->update(['user_id' => null]);
 
         $user->deleteProfilePhoto();

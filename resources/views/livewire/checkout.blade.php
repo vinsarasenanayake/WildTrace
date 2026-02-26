@@ -1,7 +1,6 @@
 <div
     class="min-h-screen bg-stone-50 font-sans text-stone-800 selection:bg-green-600 selection:text-white relative overflow-x-hidden">
 
-    <!-- Background global -->
     <div class="fixed inset-0 z-0 pointer-events-none">
         <div class="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-green-600/5 rounded-full blur-[150px]">
         </div>
@@ -9,18 +8,15 @@
         </div>
     </div>
 
-    <!-- NAVBAR -->
-    <nav class="fixed top-6 left-0 right-0 z-50 mx-auto w-[95%]">
+    <nav class="fixed top-8 left-0 right-0 z-50 mx-auto w-[90%] max-w-5xl">
         <div
             class="flex items-center justify-between relative px-8 py-2 rounded-2xl bg-green-900/80 backdrop-blur-md border border-green-500/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] transition-all duration-300 hover:bg-green-900/90 hover:border-green-500/30">
-            <!-- LEFT: LOGO -->
             <a href="/" class="flex items-center gap-3 group">
                 <img src="{{ asset('images/logo.png') }}"
                     class="w-10 h-10 object-contain opacity-90 group-hover:opacity-100 transition-opacity">
             </a>
 
-            <!-- CENTER: TABS -->
-            <div class="hidden md:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
+            <div class="hidden md:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
                 <a href="{{ url('/') }}"
                     class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-green-400 transition-colors relative group">Home</a>
                 <a href="{{ url('/journey') }}"
@@ -29,8 +25,7 @@
                     class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-green-400 transition-colors relative group">Gallery</a>
             </div>
 
-            <!-- RIGHT: ICONS -->
-            <div class="flex items-center gap-6 text-white">
+            <div class="flex items-center gap-4 text-white">
                 @auth
                     <a href="{{ url('/cart') }}"
                         class="hover:text-green-400 transition-colors transform hover:scale-110 duration-200 p-2 hover:bg-white/5 rounded-full relative">
@@ -47,16 +42,13 @@
                     </a>
                 @endauth
                 @auth
-                    <!-- Profile Link (Dashboard) -->
                     <a href="{{ url('/dashboard') }}" class="relative group focus:outline-none" title="Dashboard">
                         <img src="{{ Auth::user()->profile_photo_url }}"
                             class="w-8 h-8 rounded-full border-2 border-green-500/30 hover:border-green-400 transition-all">
-                        <!-- Online Indicator -->
                         <span
                             class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-green-900 rounded-full"></span>
                     </a>
 
-                    <!-- Logout Button -->
                     <form method="POST" action="{{ route('logout') }}" class="inline-flex">
                         @csrf
                         <button type="submit"
@@ -77,8 +69,6 @@
         </div>
     </nav>
 
-    <!-- MAIN -->
-    <!-- Main Checkout Content Container -->
     <main class="pt-32 pb-24 relative z-10">
         <div class="w-full px-4 md:px-8 lg:px-12">
             <div class="flex flex-col items-center mb-16 text-center animate-reveal">
@@ -92,11 +82,9 @@
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start w-full">
 
-                    <!-- Form -->
                     <div class="space-y-10 animate-reveal" style="animation-delay: 0.1s;">
                         <div
                             class="bg-white/80 backdrop-blur-xl border border-stone-200 rounded-[2.5rem] p-10 shadow-xl">
-                            <!-- Shipping Information Form Section -->
                             <h3 class="text-2xl font-serif italic text-stone-900 leading-none mb-8">Shipping Details
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -154,7 +142,6 @@
 
                     </div>
 
-                    <!-- Order Summary and Payment Review Section -->
                     <div class="animate-reveal" style="animation-delay: 0.2s;">
                         <div class="bg-stone-900 rounded-[2.5rem] p-10 shadow-2xl text-white sticky top-32">
                             <h3 class="text-2xl font-serif italic mb-8">Order Review</h3>

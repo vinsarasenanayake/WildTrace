@@ -3,7 +3,6 @@
 <div class="max-w-3xl mx-auto">
     <div class="bg-white rounded-2xl shadow-sm border border-stone-100 p-8">
         <form wire:submit.prevent="save" class="space-y-6">
-            <!-- Milestone Details Form Section -->
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div class="col-span-1">

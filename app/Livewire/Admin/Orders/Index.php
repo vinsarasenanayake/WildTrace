@@ -11,14 +11,12 @@ class Index extends Component
 {
     use WithPagination;
 
-    // Delete an order record
     public function delete($id)
     {
         Order::find($id)->delete();
-        session()->flash('message', 'Order deleted successfully.');
+        $this->dispatch('notify', message: 'The order record has been permanently removed from the system.', type: 'success');
     }
 
-    // Render the order management table with latest orders first
     #[Layout('layouts.admin')]
     public function render()
     {

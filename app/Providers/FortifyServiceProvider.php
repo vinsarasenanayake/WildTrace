@@ -16,7 +16,6 @@ use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
 {
-    // Register any application services
     public function register(): void
     {
         $this->app->instance(
@@ -25,7 +24,6 @@ class FortifyServiceProvider extends ServiceProvider
         );
     }
 
-    // Bootstrap any application services
     public function boot(): void
     {
         Fortify::createUsersUsing(CreateNewUser::class);

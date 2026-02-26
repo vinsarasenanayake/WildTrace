@@ -9,20 +9,17 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 
 Route::middleware(['redirectAdmin'])->group(function () {
 
-    // Publicly accessible pages for all visitors
     Route::get('/', [PageController::class, 'home'])->name('home');
     Route::get('/journey', [PageController::class, 'journey'])->name('journey');
     Route::get('/gallery', \App\Livewire\Gallery::class)->name('gallery');
     Route::get('/product/{id}', [PageController::class, 'product'])->name('product.show');
 
-    // Shopping cart and checkout process routes
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout.index');
     Route::post('/checkout/process', [CartController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/success', [CartController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/cancel', [CartController::class, 'cancel'])->name('checkout.cancel');
 
-    // Routes requiring user authentication
     Route::middleware([
         'auth:sanctum',
         config('jetstream.auth_session'),
@@ -33,7 +30,6 @@ Route::middleware(['redirectAdmin'])->group(function () {
     });
 });
 
-// Administrative panel routes for managing system content
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
@@ -47,7 +43,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('/users', [AdminController::class, 'users'])->name('users.index');
 
-    Route::get('/subscribers', [AdminController::class, 'subscribers'])->name('subscribers.index');
 
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders.index');
 

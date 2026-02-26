@@ -10,7 +10,6 @@ use App\Models\Photographer;
 
 class Create extends Component
 {
-    // Public properties for product basic information
     public $title;
     public $description;
     public $long_description;
@@ -20,13 +19,11 @@ class Create extends Component
     public $location;
     public $photographer_id;
 
-    // Technical specifications for the photography product
     public $aperture;
     public $shutter_speed;
     public $iso;
     public $focal_length;
 
-    // Validation rules for product creation
     protected $rules = [
         'title' => 'required|string|max:255',
         'description' => 'required|string',
@@ -42,7 +39,6 @@ class Create extends Component
         'focal_length' => 'nullable|string',
     ];
 
-    // Save the product to the database after validation
     public function save()
     {
         $this->validate();
@@ -65,7 +61,6 @@ class Create extends Component
         return redirect()->route('admin.products.index')->with('message', 'Product created successfully.');
     }
 
-    // Render the Livewire component view with the admin layout
     #[Layout('layouts.admin')]
     public function render()
     {

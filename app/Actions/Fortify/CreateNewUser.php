@@ -12,10 +12,8 @@ class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
 
-    // Validate and create a newly registered user
     public function create(array $input): User
     {
-        // Validate user registration data with dynamic support for international contact formats
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -28,7 +26,6 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
-        // Persist new user with dynamic location and contact data
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],

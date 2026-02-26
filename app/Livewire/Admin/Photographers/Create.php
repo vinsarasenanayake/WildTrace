@@ -9,11 +9,14 @@ use App\Models\Photographer;
 
 class Create extends Component
 {
+    use WithFileUploads;
+
     public $name;
     public $profession;
     public $achievement;
     public $quote;
     public $post;
+    public $photo;
     public $image;
 
     protected $rules = [
@@ -22,13 +25,14 @@ class Create extends Component
         'achievement' => 'required|string|max:255',
         'quote' => 'required|string|max:255',
         'post' => 'required|string|max:255',
-        'image' => 'required|string|max:255',
+        'photo' => 'required|image|mimes:jpg,jpeg,png,webp|max:10240',
     ];
 
-    // Create a new photographer entry in the database
     public function save()
     {
         $this->validate();
+
+        $path = $this->photo->store('images/photographers', 'public');
 
         Photographer::create([
             'name' => $this->name,
@@ -36,13 +40,12 @@ class Create extends Component
             'achievement' => $this->achievement,
             'quote' => $this->quote,
             'post' => $this->post,
-            'image' => $this->image,
+            'image' => 'storage/' . $path,
         ]);
 
         return redirect()->route('admin.photographers.index')->with('message', 'Photographer created successfully.');
     }
 
-    // Render the create photographer form view
     #[Layout('layouts.admin')]
     public function render()
     {

@@ -1,7 +1,6 @@
 @section('header', 'Milestones')
 
 <div class="space-y-6">
-    <!-- Header and Actions Section -->
     <div class="flex justify-between items-center">
         <div></div>
         <a href="{{ route('admin.milestones.create') }}"
@@ -14,7 +13,6 @@
         </a>
     </div>
 
-    <!-- Milestones Table Section -->
     <div class="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
         <table class="w-full text-left text-sm text-stone-600">
             <thead class="bg-stone-50 text-xs uppercase font-bold text-stone-500">
@@ -37,7 +35,6 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <!-- Placeholder for status if it exists, else just active -->
                             <span
                                 class="px-2 py-1 rounded-full text-[10px] uppercase font-bold tracking-wider bg-green-100 text-green-700">Active</span>
                         </td>

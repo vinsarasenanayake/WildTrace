@@ -1,5 +1,4 @@
 <div class="w-full max-w-3xl animate-fade-in-up">
-    <!-- Logo area -->
     <div class="flex flex-col items-center mb-8">
         <a href="{{ route('home') }}" class="mb-2 group transition-all duration-500">
             <img src="{{ asset('images/logo.png') }}"
@@ -10,7 +9,6 @@
         </p>
     </div>
 
-    <!-- Main Registration Form Container Card -->
     <div
         class="bg-white/95 backdrop-blur-3xl border border-stone-200 rounded-3xl p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)]">
         <x-validation-errors class="mb-4 text-[10px] text-red-500 font-bold uppercase tracking-wide text-center" />
@@ -18,7 +16,6 @@
         <form method="POST" action="{{ route('register') }}" class="space-y-6">
             @csrf
 
-            <!-- Section 1: User Identity Information -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Full
@@ -37,7 +34,6 @@
                 </div>
             </div>
 
-            <!-- Section 2: Account Security Credentials -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <label
@@ -52,7 +48,6 @@
                 </div>
             </div>
 
-            <!-- Section 3: Contact and Geographic Details -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-30">
                 <div class="space-y-2">
                     <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Contact
@@ -69,7 +64,6 @@
                 </div>
             </div>
 
-            <!-- Row: City & Postal Code -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-20">
                 <div class="space-y-2">
                     <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">City</label>
@@ -88,7 +82,6 @@
                 </div>
             </div>
 
-            <!-- Row: Country (Full Width at Bottom) -->
             <div class="space-y-2 relative z-10">
                 <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Country</label>
                 <x-country-select name="country" :selected="old('country', 'Sri Lanka')" required />
@@ -133,8 +126,4 @@
         </form>
     </div>
 
-    <!-- System Footer Copyright Label -->
-    <div class="mt-6 text-center">
-        <p class="text-[9px] text-stone-400 font-bold uppercase tracking-[0.4em]">WildTrace &copy; 2026</p>
-    </div>
 </div>

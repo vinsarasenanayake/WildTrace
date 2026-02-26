@@ -2,14 +2,12 @@
 
 namespace App\Helpers;
 
-// CountryHelper provides a centralized source for country data
+
 class CountryHelper
 {
-    // Retrieves a comprehensive list of supported countries
     public static function getAll(): array
     {
         return [
-            // Asia & Oceania
             ['name' => 'Sri Lanka', 'code' => 'LK', 'dial_code' => '+94'],
             ['name' => 'India', 'code' => 'IN', 'dial_code' => '+91'],
             ['name' => 'Australia', 'code' => 'AU', 'dial_code' => '+61'],
@@ -24,12 +22,8 @@ class CountryHelper
             ['name' => 'Pakistan', 'code' => 'PK', 'dial_code' => '+92'],
             ['name' => 'Bangladesh', 'code' => 'BD', 'dial_code' => '+880'],
             ['name' => 'Maldives', 'code' => 'MV', 'dial_code' => '+960'],
-
-            // North America
             ['name' => 'United States', 'code' => 'US', 'dial_code' => '+1'],
             ['name' => 'Canada', 'code' => 'CA', 'dial_code' => '+1'],
-
-            // Europe
             ['name' => 'United Kingdom', 'code' => 'GB', 'dial_code' => '+44'],
             ['name' => 'Germany', 'code' => 'DE', 'dial_code' => '+49'],
             ['name' => 'France', 'code' => 'FR', 'dial_code' => '+33'],
@@ -46,13 +40,20 @@ class CountryHelper
             ['name' => 'Greece', 'code' => 'GR', 'dial_code' => '+30'],
             ['name' => 'Turkey', 'code' => 'TR', 'dial_code' => '+90'],
             ['name' => 'Russia', 'code' => 'RU', 'dial_code' => '+7'],
-
-            // Middle East & Africa
             ['name' => 'United Arab Emirates', 'code' => 'AE', 'dial_code' => '+971'],
             ['name' => 'South Africa', 'code' => 'ZA', 'dial_code' => '+27'],
-
-            // South America
             ['name' => 'Brazil', 'code' => 'BR', 'dial_code' => '+55'],
         ];
+    }
+
+    public static function getName(string $query): string
+    {
+        $countries = self::getAll();
+        foreach ($countries as $country) {
+            if (strtolower($country['name']) === strtolower($query) || strtolower($country['code']) === strtolower($query)) {
+                return $country['name'];
+            }
+        }
+        return $query;
     }
 }

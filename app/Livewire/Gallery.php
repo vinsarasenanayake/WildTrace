@@ -15,9 +15,7 @@ class Gallery extends Component
     public $photographer = '';
     public $category = '';
     public $sort = 'newest';
-    public $email = '';
 
-    // Prevent admin users from accessing the guest gallery
     public function mount()
     {
         if (Auth::check() && Auth::user()->is_admin) {
@@ -25,19 +23,6 @@ class Gallery extends Component
         }
     }
 
-    protected $rules = [
-        'email' => 'required|email',
-    ];
-
-    // Process newsletter subscription requests
-    public function subscribe()
-    {
-        $this->validate();
-        session()->flash('newsletter_success', 'Welcome to the pack! You are now subscribed.');
-        $this->reset('email');
-    }
-
-    // Reset pagination when any filter selection is modified
     public function updatedPhotographer()
     {
         $this->resetPage();
@@ -51,7 +36,6 @@ class Gallery extends Component
         $this->resetPage();
     }
 
-    // Clear all active gallery filters
     public function clearFilters()
     {
         $this->reset(['photographer', 'category', 'sort']);
@@ -63,7 +47,6 @@ class Gallery extends Component
     public $loginPassword = '';
     public $showPassword = false;
 
-    // Handle guest login requests via the inline modal
     public function performLogin()
     {
         $this->validate([
@@ -94,22 +77,19 @@ class Gallery extends Component
         $this->resetValidation();
     }
 
-    // Quick add product to cart for authenticated users
     public function addToCart($productId)
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             $this->showLoginModal = true;
             return;
         }
 
-        // Add to DB Cart
         $cartItem = \App\Models\Cart::firstOrCreate(
-            ['user_id' => auth()->id(), 'product_id' => $productId],
+            ['user_id' => Auth::id(), 'product_id' => $productId],
             ['quantity' => 0]
         );
         $cartItem->increment('quantity');
 
-        // Update Session Cart for Navbar Compatibility
         $cart = session()->get('cart', []);
         $product = Product::find($productId);
         if (isset($cart[$productId])) {
@@ -125,17 +105,17 @@ class Gallery extends Component
             ];
         }
         session()->put('cart', $cart);
+        $this->dispatch('cartUpdated');
     }
 
-    // Toggle product favorite status for the current user
     public function toggleFavorite($productId)
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             $this->showLoginModal = true;
             return;
         }
 
-        $fav = \App\Models\Favorite::where('user_id', auth()->id())
+        $fav = \App\Models\Favorite::where('user_id', Auth::id())
             ->where('product_id', $productId)
             ->first();
 
@@ -143,13 +123,12 @@ class Gallery extends Component
             $fav->delete();
         } else {
             \App\Models\Favorite::create([
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'product_id' => $productId
             ]);
         }
     }
 
-    // Fetch and filter products for the gallery display
     #[Layout('layouts.guest', ['title' => 'Gallery', 'hasFooter' => false, 'fullWidth' => true])]
     public function render()
     {
@@ -175,13 +154,13 @@ class Gallery extends Component
             case 'az':
                 $query->orderBy('title', 'asc');
                 break;
-            default: // newest
+            default:
                 $query->latest();
                 break;
         }
 
-        $userFavorites = auth()->check()
-            ? \App\Models\Favorite::where('user_id', auth()->id())->pluck('product_id')->toArray()
+        $userFavorites = Auth::check()
+            ? \App\Models\Favorite::where('user_id', Auth::id())->pluck('product_id')->toArray()
             : [];
 
         return view('livewire.gallery', [

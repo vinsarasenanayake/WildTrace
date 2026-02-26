@@ -9,13 +9,16 @@ use App\Models\Photographer;
 
 class Edit extends Component
 {
+    use WithFileUploads;
+
     public Photographer $photographer;
     public $name;
     public $profession;
     public $achievement;
     public $quote;
     public $post;
-    public $image; // Changed to simple string
+    public $image;
+    public $photo;
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -23,10 +26,9 @@ class Edit extends Component
         'achievement' => 'required|string|max:255',
         'quote' => 'required|string|max:255',
         'post' => 'required|string|max:255',
-        'image' => 'required|string|max:255',
+        'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
     ];
 
-    // Initialize photographer data for editing
     public function mount(Photographer $photographer)
     {
         $this->photographer = $photographer;
@@ -35,26 +37,28 @@ class Edit extends Component
         $this->achievement = $photographer->achievement;
         $this->quote = $photographer->quote;
         $this->post = $photographer->post;
-        $this->image = $photographer->image;
+        $this->image = $photographer->image; // existing path for preview
     }
 
-    // Update photographer details in the database
     public function save()
     {
         $this->validate();
+
+        if ($this->photo) {
+            $path = $this->photo->store('images/photographers', 'public');
+            $this->photographer->image = 'storage/' . $path;
+        }
 
         $this->photographer->name = $this->name;
         $this->photographer->profession = $this->profession;
         $this->photographer->achievement = $this->achievement;
         $this->photographer->quote = $this->quote;
         $this->photographer->post = $this->post;
-        $this->photographer->image = $this->image;
         $this->photographer->save();
 
         return redirect()->route('admin.photographers.index')->with('message', 'Photographer updated successfully.');
     }
 
-    // Render the edit photographer form view
     #[Layout('layouts.admin')]
     public function render()
     {

@@ -1,25 +1,20 @@
 <div class="min-h-screen relative overflow-x-hidden bg-stone-50 flex flex-col">
 
-    <!-- Background global -->
     <div class="fixed inset-0 z-0 pointer-events-none">
         <div class="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-green-600/5 rounded-full blur-[150px]"></div>
         <div class="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-stone-400/10 rounded-full blur-[100px]">
         </div>
     </div>
 
-    <!-- NAVBAR -->
-    <!-- Navigation Menu Section -->
-    <nav class="fixed top-6 left-0 right-0 z-50 mx-auto w-[95%]">
+    <nav class="fixed top-8 left-0 right-0 z-50 mx-auto w-[90%] max-w-5xl">
         <div
             class="flex items-center justify-between relative px-8 py-2 rounded-2xl bg-green-900/80 backdrop-blur-md border border-green-500/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] transition-all duration-300 hover:bg-green-900/90 hover:border-green-500/30">
-            <!-- LEFT: LOGO -->
             <a href="/" class="flex items-center gap-3 group">
                 <img src="{{ asset('images/logo.png') }}"
                     class="w-10 h-10 object-contain opacity-90 group-hover:opacity-100 transition-opacity">
             </a>
 
-            <!-- CENTER: TABS -->
-            <div class="hidden md:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
+            <div class="hidden md:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
                 <a href="{{ url('/') }}"
                     class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-green-400 transition-colors relative group">Home</a>
                 <a href="{{ url('/journey') }}"
@@ -28,8 +23,7 @@
                     class="text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-green-400 transition-colors relative group">Gallery</a>
             </div>
 
-            <!-- RIGHT: ICONS -->
-            <div class="flex items-center gap-6 text-white">
+            <div class="flex items-center gap-4 text-white">
                 <a href="{{ url('/cart') }}"
                     class="hover:text-green-400 transition-colors transform hover:scale-110 duration-200 p-2 hover:bg-white/5 rounded-full relative">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -44,15 +38,12 @@
                     @endif
                 </a>
 
-                <!-- Profile Link (Dashboard) -->
                 <a href="{{ url('/dashboard') }}" class="relative group focus:outline-none" title="Dashboard">
                     <img src="{{ Auth::user()->profile_photo_url }}"
                         class="w-8 h-8 rounded-full border-2 border-green-500/30 hover:border-green-400 transition-all">
-                    <!-- Online Indicator -->
                     <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-green-900 rounded-full"></span>
                 </a>
 
-                <!-- Logout Button -->
                 <form method="POST" action="{{ route('logout') }}" class="inline-flex">
                     @csrf
                     <button type="submit" 
@@ -67,11 +58,8 @@
         </div>
     </nav>
 
-    <!-- DASHBOARD CONTENT -->
-    <!-- Main Dashboard Body Container -->
     <main class="relative z-10 pt-32 pb-24 px-6 md:px-12 w-full flex-grow min-h-[70vh]">
 
-        <!-- Welcome Header -->
         <div class="mb-10 animate-fade-in-up">
             <div>
                 <span class="text-green-600 font-black tracking-[0.4em] text-[10px] uppercase mb-2 block">My
@@ -82,8 +70,6 @@
             </div>
         </div>
 
-        <!-- Tabs & Action -->
-        <!-- Navigation Tabs for Switching Between Favorites and Orders -->
         <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-stone-200 mb-10 pb-1 gap-4" wire:ignore.self>
             <div class="flex gap-8 overflow-x-auto">
                 <button wire:click="setTab('favorites')"
@@ -116,8 +102,6 @@
             </div>
         </div>
 
-        <!-- Favorites Tab -->
-        <!-- Favorites Collection Grid Section -->
         @if($activeTab === 'favorites')
             <div class="animate-fade-in space-y-8">
                 @if($favorites->count() > 0)
@@ -126,7 +110,6 @@
                             @if($fav->product)
                                 <div
                                     class="group relative bg-white rounded-3xl p-4 shadow-sm border border-stone-100 hover:shadow-xl hover:border-green-500/30 transition-all duration-500">
-                                    <!-- Image Card -->
                                     <div class="relative h-64 rounded-2xl overflow-hidden mb-6">
                                         <img src="{{ asset($fav->product->image_url) }}"
                                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
@@ -134,7 +117,6 @@
                                             class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500">
                                         </div>
 
-                                        <!-- Remove From Favorites -->
                                         <button wire:click="removeFavorite({{ $fav->id }})"
                                             class="absolute top-4 right-4 p-2 bg-white/90 backdrop-blur-sm rounded-full text-red-500 hover:text-red-600 hover:bg-white transition-all shadow-lg z-10">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
@@ -145,7 +127,6 @@
                                         </button>
                                     </div>
 
-                                    <!-- Product Info -->
                                     <div class="px-2 pb-2">
                                         <div class="flex justify-between items-start mb-2">
                                             <div>
@@ -174,7 +155,6 @@
                         @endforeach
                     </div>
                 @else
-                    <!-- Empty State -->
                     <div
                         class="flex flex-col items-center justify-center py-20 text-center bg-white rounded-[3rem] border border-stone-100 shadow-sm">
                         <div class="w-16 h-16 bg-stone-100 rounded-full flex items-center justify-center mb-6">
@@ -196,14 +176,11 @@
             </div>
         @endif
 
-        <!-- Order History Tab -->
-        <!-- Order History and Status Tracking Section -->
         @if($activeTab === 'orders')
             <div class="animate-fade-in space-y-6 max-w-4xl mx-auto">
                 @if($orders->count() > 0)
                     @foreach($orders as $order)
                         <div class="bg-white rounded-3xl p-8 border border-stone-100 shadow-sm hover:shadow-lg transition-shadow">
-                            <!-- Order Header -->
                             <div
                                 class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-stone-100">
                                 <div>
@@ -214,6 +191,12 @@
                                     <p class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Order
                                         #{{ $order->id }}</p>
                                     <p class="text-sm font-bold text-stone-900">{{ $order->created_at->format('F j, Y') }}</p>
+                                    
+                                    @if(in_array(strtolower($order->status ?? 'pending'), ['confirmed', 'paid', 'delivered']))
+                                        <div class="flex items-center gap-1.5 mt-2 bg-green-50/50 w-fit px-3 py-1 rounded-full border border-green-100">
+                                            <p class="text-[9px] font-black uppercase tracking-widest text-green-600">Est. Delivery: {{ $order->created_at->addDays(3)->format('M d') }} - {{ $order->created_at->addDays(5)->format('M d') }}</p>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="flex items-center gap-6">
                                     <div class="text-right">
@@ -221,7 +204,6 @@
                                         <p class="text-lg font-black text-green-600">${{ $order->total_price }}</p>
                                     </div>
                                     
-                                    <!-- Order Actions -->
                                     <div class="flex items-center gap-4">
                                         <div class="flex flex-col items-end gap-2">
                                         @php
@@ -234,7 +216,6 @@
                                     
                                         @if($isVisible)
                                             <div class="flex flex-col gap-2">
-                                                <!-- Pay Now Button -->
                                                 @if($isGrayedOut)
                                                     <button disabled class="px-6 py-2 bg-stone-200 text-stone-400 text-[10px] font-bold uppercase tracking-widest rounded-full cursor-not-allowed text-center shadow-none border border-stone-200">
                                                         Pay Now
@@ -245,7 +226,6 @@
                                                     </a>
                                                 @endif
 
-                                                <!-- Cancel Button -->
                                                 @if($isGrayedOut)
                                                     <button disabled class="px-6 py-2 bg-stone-100 text-stone-300 text-[10px] font-bold uppercase tracking-widest rounded-full cursor-not-allowed text-center border border-stone-100">
                                                         Cancel Order
@@ -265,7 +245,6 @@
                                 </div>
                             </div>
 
-                            <!-- Order Items -->
                             <div class="space-y-4">
                                 @foreach($order->items as $item)
                                         <div class="flex items-center gap-4">
@@ -318,7 +297,6 @@
                         </div>
                     @endforeach
                 @else
-                    <!-- Empty State -->
                     <div
                         class="flex flex-col items-center justify-center py-20 text-center bg-white rounded-[3rem] border border-stone-100 shadow-sm">
                         <div class="w-16 h-16 bg-stone-100 rounded-full flex items-center justify-center mb-6">

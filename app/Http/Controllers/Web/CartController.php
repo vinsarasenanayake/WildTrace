@@ -5,25 +5,22 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    // Display the main shopping cart interface
     public function index()
     {
         return view('pages.cart');
     }
 
-    // Launch the secure checkout portal
     public function checkout()
     {
         return view('pages.checkout');
     }
 
-    // Process checkout session and persist user shipping data
     public function process(Request $request)
     {
-        // Validate incoming shipping and contact details
         $request->validate([
             'full_name' => 'required',
             'email' => 'required|email',
@@ -34,9 +31,9 @@ class CartController extends Controller
             'country' => 'required|string|max:255',
         ]);
 
-        // Sync authenticated user's profile with the latest shipping information
-        if (auth()->check()) {
-            auth()->user()->update([
+
+        if (Auth::check()) {
+            Auth::user()->update([
                 'address' => $request->address,
                 'city' => $request->city,
                 'contact_number' => $request->contact_number,
@@ -71,7 +68,7 @@ class CartController extends Controller
         }
 
         $order = \App\Models\Order::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'status' => 'pending',
             'payment_status' => 'pending',
             'total_price' => $totalPrice,
@@ -94,17 +91,16 @@ class CartController extends Controller
         $order->save();
 
         session()->forget('cart');
-        if (auth()->check()) {
-            \App\Models\Cart::where('user_id', auth()->id())->delete();
+        if (Auth::check()) {
+            \App\Models\Cart::where('user_id', Auth::id())->delete();
         }
 
         return redirect($session->url);
     }
 
-    // Handle payment retries for previously failed or pending orders
     public function repay(\App\Models\Order $order)
     {
-        if (($order->payment_status !== 'pending' && $order->payment_status !== 'declined') || $order->user_id !== auth()->id()) {
+        if (($order->payment_status !== 'pending' && $order->payment_status !== 'declined') || $order->user_id !== Auth::id()) {
             return redirect()->route('dashboard')->with('error', 'Unable to process this payment.');
         }
 
@@ -130,7 +126,7 @@ class CartController extends Controller
             ];
         }
 
-        $session = $this->createStripeSession($lineItems, $order->id, auth()->user()->email);
+        $session = $this->createStripeSession($lineItems, $order->id, Auth::user()->email);
 
         $order->session_id = $session->id;
         $order->payment_status = 'pending';
@@ -139,7 +135,6 @@ class CartController extends Controller
         return redirect($session->url);
     }
 
-    // Configure and instantiate a Stripe Checkout gateway session
     private function createStripeSession(array $lineItems, int $orderId, string $email): \Stripe\Checkout\Session
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -156,7 +151,6 @@ class CartController extends Controller
         return \Stripe\Checkout\Session::create($params);
     }
 
-    // Handle successful payment returns and finalize order status
     public function success(Request $request)
     {
         $sessionId = $request->get('session_id');
@@ -167,27 +161,25 @@ class CartController extends Controller
             $order->status = 'paid';
             $order->save();
             session()->forget('cart');
-            if (auth()->check()) {
-                \App\Models\Cart::where('user_id', auth()->id())->delete();
+            if (Auth::check()) {
+                \App\Models\Cart::where('user_id', Auth::id())->delete();
             }
         }
 
         $startDate = now()->addDays(3)->format('M d');
         $endDate = now()->addDays(5)->format('M d');
 
-        return redirect()->route('home')->with('success', "Thank you for your order! Payment successful. Estimated delivery: $startDate - $endDate");
+        return redirect()->route('cart.index')->with('success', "Order placed successfully! Payment confirmed. Your artistic pieces are being prepared. Estimated delivery: $startDate - $endDate.");
     }
 
-    // Process cancelled or failed checkout attempts
     public function cancel(Request $request)
     {
         if ($request->has('order_id')) {
             $order = \App\Models\Order::find($request->order_id);
-            if ($order && ($order->payment_status === 'pending')) {
-                $order->payment_status = 'declined';
+            if ($order && $order->payment_status === 'pending') {
                 $order->save();
             }
         }
-        return redirect()->route('cart.index')->with('error', 'Order declined/cancelled.');
+        return redirect()->route('cart.index')->with('error', 'The payment process was interrupted. Your order has been saved in your order history as a pending order.');
     }
 }

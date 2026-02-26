@@ -8,28 +8,24 @@
     </x-slot>
 
     <x-slot name="form">
-        <!-- Profile Photo -->
         @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
             <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 sm:col-span-4">
-                <!-- Profile Photo File Input -->
                 <input type="file" id="photo" class="hidden" wire:model.live="photo" x-ref="photo" x-on:change="
-                                                                                                photoName = $refs.photo.files[0].name;
-                                                                                                const reader = new FileReader();
-                                                                                                reader.onload = (e) => {
-                                                                                                    photoPreview = e.target.result;
-                                                                                                };
-                                                                                                reader.readAsDataURL($refs.photo.files[0]);
-                                                                                        " />
+                                                                                                    photoName = $refs.photo.files[0].name;
+                                                                                                    const reader = new FileReader();
+                                                                                                    reader.onload = (e) => {
+                                                                                                        photoPreview = e.target.result;
+                                                                                                    };
+                                                                                                    reader.readAsDataURL($refs.photo.files[0]);
+                                                                                            " />
 
                 <x-label for="photo" value="{{ __('Photo') }}" />
 
-                <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
                     <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}"
                         class="rounded-full size-20 object-cover">
                 </div>
 
-                <!-- New Profile Photo Preview -->
                 <div class="mt-2" x-show="photoPreview" style="display: none;">
                     <span class="block rounded-full size-20 bg-cover bg-no-repeat bg-center"
                         x-bind:style="'background-image: url(\'' + photoPreview + '\');'">
@@ -84,8 +80,6 @@
             @endif
         </div>
 
-        <!-- Contact Number: We use descending z-indices (z-50, z-40, etc.) to ensure 
-             dropdown lists overlay correctly on top of subsequent form elements. -->
         <div class="col-span-6 sm:col-span-3 relative z-50">
             <x-label for="contact_number" value="{{ __('Contact Number') }}" />
             <x-contact-input id="contact_number" wire:model="state.contact_number" placeholder="771234567" />
@@ -116,7 +110,6 @@
             <x-input-error for="postal_code" class="mt-2" />
         </div>
 
-        <!-- Country Selection -->
         <div class="col-span-6 sm:col-span-3 relative z-10">
             <x-label for="country" value="{{ __('Country') }}" />
             <x-country-select id="country" wire:model="state.country" :selected="$this->user->country ?? 'Sri Lanka'" />

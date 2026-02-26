@@ -12,12 +12,12 @@
         </div>
 
         <div class="bg-white rounded-3xl border border-stone-200 shadow-sm p-10">
-            <form action="{{ route('admin.products.update', $product) }}" method="POST" class="space-y-8">
+            <form action="{{ route('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data"
+                class="space-y-8">
                 @csrf
                 @method('PUT')
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Title -->
+                <div class="grid grid-cols-1 gap-8">
                     <div class="space-y-3">
                         <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Artifact
                             Title</label>
@@ -25,17 +25,9 @@
                             class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold"
                             placeholder="e.g. The Whispering Forest">
                     </div>
+                </div>
 
-                    <!-- Price -->
-                    <div class="space-y-3">
-                        <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Price
-                            (USD)</label>
-                        <input type="number" name="price" step="0.01" value="{{ $product->price }}" required
-                            class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold"
-                            placeholder="0.00">
-                    </div>
-
-                    <!-- Category -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-3">
                         <label
                             class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Category</label>
@@ -62,7 +54,6 @@
                         </select>
                     </div>
 
-                    <!-- Photographer -->
                     <div class="space-y-3">
                         <label
                             class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Photographer
@@ -80,7 +71,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Location -->
                     <div class="space-y-3">
                         <label
                             class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Location</label>
@@ -88,7 +78,6 @@
                             class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold"
                             placeholder="e.g. Yala National Park">
                     </div>
-                    <!-- Aperture -->
                     <div class="space-y-3">
                         <label
                             class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Aperture</label>
@@ -96,7 +85,6 @@
                             class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold"
                             placeholder="e.g. f/2.8">
                     </div>
-                    <!-- Shutter Speed -->
                     <div class="space-y-3">
                         <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Shutter
                             Speed</label>
@@ -107,14 +95,12 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- ISO -->
                     <div class="space-y-3">
                         <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">ISO</label>
                         <input type="number" name="iso" value="{{ $product->iso }}"
                             class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold"
                             placeholder="e.g. 400">
                     </div>
-                    <!-- Focal Length -->
                     <div class="space-y-3">
                         <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Focal
                             Length</label>
@@ -124,25 +110,75 @@
                     </div>
                 </div>
 
-                <!-- Image URL -->
-                <div class="space-y-3">
-                    <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Artifact Image
-                        URL</label>
-                    <input type="url" name="image_url" value="{{ $product->image_url }}" required
-                        class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold"
-                        placeholder="https://example.com/image.jpg">
+                <div class="space-y-3" x-data="{ photoSelected: false, previewUrl: null }">
+                    <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Artifact
+                        Image</label>
+
+                    @if ($product->image_url)
+                        <div class="mb-4" x-show="!photoSelected">
+                            <p class="text-[10px] text-stone-400 mb-2 uppercase tracking-widest font-bold">Current Image</p>
+                            <img src="{{ asset($product->image_url) }}"
+                                class="w-full max-w-md h-64 object-cover rounded-2xl border border-stone-200 shadow-sm">
+                        </div>
+                    @endif
+
+                    <div class="mb-4" x-show="photoSelected" x-cloak>
+                        <p class="text-[10px] text-stone-400 mb-2 uppercase tracking-widest font-bold">New Preview</p>
+                        <img :src="previewUrl"
+                            class="w-full max-w-md h-64 object-cover rounded-2xl border-2 border-green-500 shadow-sm">
+                    </div>
+
+                    <input type="file" name="image_file" accept="image/*"
+                        @change="let file = $event.target.files[0]; if (file) { previewUrl = URL.createObjectURL(file); photoSelected = true }"
+                        class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:uppercase file:bg-stone-900 file:text-white hover:file:bg-stone-700">
+
+                    @error('image_file')
+                        <p class="text-red-500 text-[10px] mt-1 font-bold italic">{{ $message }}</p>
+                    @enderror
+                    <p class="text-[10px] text-stone-400 mt-1">Leave empty to keep the current image. Accepted: JPG,
+                        PNG, WEBP.</p>
+                    <input type="hidden" name="existing_image_url" value="{{ $product->image_url }}">
                 </div>
 
-                <!-- Options (JSON) -->
-                <div class="space-y-3">
-                    <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Frame Options
-                        (JSON)</label>
-                    <textarea name="options" rows="4"
-                        class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold font-mono text-xs"
-                        placeholder='{"frames":[{"size":"12 x 18 in","price":90},{"size":"18 x 24 in","price":135},{"size":"24 x 36 in","price":180},{"size":"40 x 60 in","price":315}]}'>{{ $product->options ? json_encode($product->options) : '' }}</textarea>
+                <div class="space-y-4">
+                    <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Frame Option
+                        Prices (USD)</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold uppercase text-stone-400 tracking-widest ml-1">12 × 18
+                                in</label>
+                            <input type="number" name="frame_price_1" step="0.01" min="0" required
+                                value="{{ $product->options['frames'][0]['price'] ?? 90 }}"
+                                class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-4 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold"
+                                placeholder="90">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold uppercase text-stone-400 tracking-widest ml-1">18 × 24
+                                in</label>
+                            <input type="number" name="frame_price_2" step="0.01" min="0" required
+                                value="{{ $product->options['frames'][1]['price'] ?? 135 }}"
+                                class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-4 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold"
+                                placeholder="135">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold uppercase text-stone-400 tracking-widest ml-1">24 × 36
+                                in</label>
+                            <input type="number" name="frame_price_3" step="0.01" min="0" required
+                                value="{{ $product->options['frames'][2]['price'] ?? 180 }}"
+                                class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-4 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold"
+                                placeholder="180">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold uppercase text-stone-400 tracking-widest ml-1">40 × 60
+                                in</label>
+                            <input type="number" name="frame_price_4" step="0.01" min="0" required
+                                value="{{ $product->options['frames'][3]['price'] ?? 315 }}"
+                                class="w-full bg-stone-50 border border-stone-200 rounded-2xl px-4 py-4 text-sm text-stone-900 focus:outline-none focus:border-green-500 hover:border-stone-300 transition-all font-bold"
+                                placeholder="315">
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Long Description -->
                 <div class="space-y-3">
                     <label class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Long
                         Description</label>
@@ -151,7 +187,6 @@
                         placeholder="Detailed story...">{{ $product->long_description }}</textarea>
                 </div>
 
-                <!-- Description -->
                 <div class="space-y-3">
                     <label
                         class="text-[11px] font-black uppercase text-stone-500 tracking-[0.1em] ml-1">Description</label>

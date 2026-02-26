@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
-    // Handle request
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check() && Auth::user()->is_admin) {

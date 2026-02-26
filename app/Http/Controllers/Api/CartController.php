@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
-    // List Items
     public function index(Request $request)
     {
         $cartItems = Cart::where('user_id', $request->user()->id)
@@ -20,7 +19,6 @@ class CartController extends Controller
         return response()->json($this->transformCartItems($cartItems));
     }
 
-    // Add Item
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -51,7 +49,6 @@ class CartController extends Controller
 
         $cartItem->load('product.photographer');
 
-        // Transform Item
         $transformed = $this->transformCartItems(collect([$cartItem]))->first();
 
         return response()->json([
@@ -60,7 +57,6 @@ class CartController extends Controller
         ], 201);
     }
 
-    // Update Quantity
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -90,7 +86,6 @@ class CartController extends Controller
         ]);
     }
 
-    // Remove Item
     public function destroy(Request $request, $id)
     {
         $cartItem = Cart::where('user_id', $request->user()->id)
@@ -106,7 +101,6 @@ class CartController extends Controller
         return response()->json(['message' => 'Item removed from cart']);
     }
 
-    // Clear Cart
     public function clear(Request $request)
     {
         Cart::where('user_id', $request->user()->id)->delete();
@@ -114,7 +108,6 @@ class CartController extends Controller
         return response()->json(['message' => 'Cart cleared']);
     }
 
-    // Sync Cart
     public function sync(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -130,10 +123,8 @@ class CartController extends Controller
 
         $userId = $request->user()->id;
 
-        // Clear Old
         Cart::where('user_id', $userId)->delete();
 
-        // Add New
         foreach ($request->items as $item) {
             Cart::create([
                 'user_id' => $userId,
@@ -153,13 +144,11 @@ class CartController extends Controller
         ]);
     }
 
-    // Transform Collection
     private function transformCartItems($items)
     {
         return $items->map(function ($item) {
-            $price = $item->product->price; // Base Price
+            $price = $item->product->price;
 
-            // Check Variant
             if ($item->size && isset($item->product->options['frames'])) {
                 foreach ($item->product->options['frames'] as $frame) {
                     if ($frame['size'] === $item->size) {
@@ -169,7 +158,6 @@ class CartController extends Controller
                 }
             }
 
-            // Set Price
             $item->price = $price;
             return $item;
         });

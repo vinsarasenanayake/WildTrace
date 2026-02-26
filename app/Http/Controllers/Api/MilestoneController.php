@@ -8,10 +8,8 @@ use Illuminate\Http\Request;
 
 class MilestoneController extends Controller
 {
-    // List Milestones
     public function index()
     {
-        // Sort Milestones
         $milestones = Milestone::orderBy('year', 'desc')->get();
         return response()->json(['data' => $milestones]);
     }

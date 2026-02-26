@@ -8,26 +8,7 @@ use Livewire\Attributes\Layout;
 
 class Home extends Component
 {
-    public $email = '';
 
-    protected $rules = [
-        'email' => 'required|email|unique:subscribers,email',
-    ];
-
-    // Register a new email address for the newsletter
-    public function subscribe()
-    {
-        $this->validate();
-
-        \App\Models\Subscriber::create([
-            'email' => $this->email
-        ]);
-
-        session()->flash('newsletter_success', 'Welcome to the pack! You are now subscribed.');
-        $this->reset('email');
-    }
-
-    // Display the landing page with highly curated featured artifacts
     #[Layout('layouts.guest', ['title' => 'Home', 'hasFooter' => false, 'fullWidth' => true])]
     public function render()
     {

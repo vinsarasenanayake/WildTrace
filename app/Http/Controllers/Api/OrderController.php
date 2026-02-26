@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
-    // List Orders
     public function index(Request $request)
     {
         $orders = Order::where('user_id', $request->user()->id)
@@ -23,7 +22,6 @@ class OrderController extends Controller
         return response()->json($orders);
     }
 
-    // Show Order
     public function show(Request $request, string $id)
     {
         $order = Order::where('user_id', $request->user()->id)
@@ -37,7 +35,6 @@ class OrderController extends Controller
         return response()->json($order);
     }
 
-    // Create Order
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -98,7 +95,6 @@ class OrderController extends Controller
         }
     }
 
-    // Update Status
     public function updateStatus(Request $request, string $id)
     {
         $validator = Validator::make($request->all(), [
@@ -124,7 +120,6 @@ class OrderController extends Controller
         ]);
     }
 
-    // Cancel Order
     public function cancel(Request $request, string $id)
     {
         $order = Order::where('user_id', $request->user()->id)->find($id);
@@ -143,7 +138,6 @@ class OrderController extends Controller
         return response()->json(['message' => 'Order cannot be cancelled'], 400);
     }
 
-    // Update Payment Status
     public function updatePaymentStatus(Request $request, string $id)
     {
         $request->validate([

@@ -2,7 +2,6 @@
     <div
         class="min-h-screen relative overflow-x-hidden bg-stone-50 text-stone-800 font-sans selection:bg-green-600 selection:text-white">
 
-        <!-- Background global -->
         <div class="fixed inset-0 z-0 pointer-events-none">
             <div class="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-green-600/5 rounded-full blur-[150px]">
             </div>

@@ -9,17 +9,14 @@ use App\Models\Product;
 
 class Index extends Component
 {
-    // Search query for filtering products
     public $search = '';
 
-    // Remove a product from the database
     public function delete($id)
     {
         Product::find($id)->delete();
-        session()->flash('message', 'Product deleted successfully.');
+        $this->dispatch('notify', message: 'Product deleted successfully.', type: 'success');
     }
 
-    // Render the product list with search filtering
     #[Layout('layouts.admin')]
     public function render()
     {

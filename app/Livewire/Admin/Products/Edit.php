@@ -17,12 +17,11 @@ class Edit extends Component
     public $description;
     public $long_description;
     public $price;
-    public $image; // Changed to simple string
+    public $image;
     public $category;
     public $location;
     public $photographer_id;
 
-    // Technical Specs
     public $aperture;
     public $shutter_speed;
     public $iso;
@@ -43,7 +42,6 @@ class Edit extends Component
         'focal_length' => 'nullable|string',
     ];
 
-    // Load product data when the component is initialized
     public function mount(Product $product)
     {
         $this->product = $product;
@@ -61,7 +59,6 @@ class Edit extends Component
         $this->focal_length = $product->focal_length;
     }
 
-    // Update existing product details in the database
     public function save()
     {
         $this->validate();
@@ -84,7 +81,6 @@ class Edit extends Component
         return redirect()->route('admin.products.index')->with('message', 'Product updated successfully.');
     }
 
-    // Render the edit form view with the admin layout
     #[Layout('layouts.admin')]
     public function render()
     {
